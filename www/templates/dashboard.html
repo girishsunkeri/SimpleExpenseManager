@@ -1,0 +1,24 @@
+<ion-view view-title="Dashboard">
+	<ion-content>
+		<div class="list">
+
+			<div class="item item-input-inset row-item-wrapper">
+				<label class="item item-input-wrapper dashboard-input">
+					<input type="text" ng-model="expense.cost" placeholder="Cost">
+				</label>
+				<button class="button button-positive ion-checkmark" ng-click="addExpense()">Add</button>
+			</div>
+			<div class="dashboard-category-wrapper">
+				<ion-item ng-repeat="category in categories" class="dashboard-category" ng-click="addCategoryToExpense(category, $index)" ng-class="{active: activeCategory == category}">
+					{{category.title}}
+				</ion-item>
+			</div>
+
+			<div class="item item-input-inset row-item-wrapper">
+				<label class="item item-input-wrapper dashboard-input">
+					<input type="text" ng-model="expense.date" placeholder="Date">
+				</label>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>
