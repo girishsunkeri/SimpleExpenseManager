@@ -1,14 +1,22 @@
 angular.module('sem.controllers', ['sem.services'])
 
-.controller('CategoriesCtrl', function($scope, $ionicModal, $timeout, UI, Categories) {
+.controller('CategoriesCtrl', function($scope, $ionicModal, $timeout, UI, Category) {
 
   $scope.category = {};
 
-  $scope.categories = Categories.types;
+  $scope.categories = [];
 
   $scope.$on('$ionicView.enter', function(e) {
     UI.setBackButtonSettings(true, '');
   });
+
+  $scope.updateCategory = function() {
+        Category.all().then(function(categories){
+          $scope.categories = categories;
+        });
+      };
+
+  $scope.updateCategory();
 
 
   $ionicModal.fromTemplateUrl('templates/addCategory.html', {
@@ -28,7 +36,8 @@ angular.module('sem.controllers', ['sem.services'])
   $scope.addNewCategory = function(){
 
     console.log("$scope.categoryTitle: " + $scope.category.title);
-    Categories.addNewCategory($scope.category.title);
+    Category.add($scope.category.title);
+    $scope.updateCategory();
 
     $timeout(function(){
       $scope.closeNewCategory();
@@ -43,21 +52,35 @@ angular.module('sem.controllers', ['sem.services'])
 })
 
 
-.controller('ExpenseCtrl', function($scope, $stateParams, UI, User) {
-  $scope.expenses = User.expenses;
+.controller('ItemCtrl', function($scope, $stateParams, UI, Item) {
+  $scope.items = [];
 
   $scope.$on('$ionicView.enter', function(e) {
     UI.setBackButtonSettings(true, '');
+    $scope.updateItems();
   });
+
+  $scope.updateItems = function() {
+        console.log("updating items");
+        Item.all().then(function(items){
+          $scope.items = items;
+        });
+      };
 })
 
 
 
-.controller('DashboardCtrl', function($scope, UI, Categories, User) {
+.controller('DashboardCtrl', function($scope, UI, Category, Item) {
 
-  $scope.categories = Categories.types;
+  $scope.categories = [];
 
-  $scope.activeCategory = { };
+  $scope.activeCategory = {};
+
+  $scope.updateCategory = function() {
+        Category.all().then(function(categories){
+          $scope.categories = categories;
+        });
+      };
 
   $scope.expense = {
     cost: '',
@@ -68,6 +91,7 @@ angular.module('sem.controllers', ['sem.services'])
   $scope.$on('$ionicView.enter', function(e) {
     console.log("setting false");
     UI.setBackButtonSettings(false, '');
+    $scope.updateCategory();
   });
 
   $scope.addCategoryToExpense = function(category, index){
@@ -78,7 +102,7 @@ angular.module('sem.controllers', ['sem.services'])
 
   $scope.addExpense = function(){
     console.log("Adding new expense(passing): " + $scope.expense.cost + " " + $scope.expense.category.id + " " + $scope.expense);
-    User.addExpense($scope.expense.cost, $scope.expense.category.id, $scope.expense);
+    Item.add($scope.expense.cost, $scope.expense.category.id, $scope.expense.date);
   }
 
 })

@@ -1,0 +1,14 @@
+1) Dashboard page
+	a) Auto focus on cost textbox when page loads
+	b) Provide date picker
+	c) Make cost to only accept integer values
+	d) Select current date by default
+
+2) Categories page
+
+
+3) Add Category page
+
+4) My expense page
+	a) Display Category name and date
+	b) Allow group by category feature
