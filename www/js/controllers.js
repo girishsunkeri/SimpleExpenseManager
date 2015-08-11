@@ -70,7 +70,7 @@ angular.module('sem.controllers', ['sem.services'])
 
 
 
-.controller('DashboardCtrl', function($scope, UI, Category, Item) {
+.controller('DashboardCtrl', function($scope, UI, Category, Item, $filter) {
 
   $scope.categories = [];
 
@@ -88,6 +88,16 @@ angular.module('sem.controllers', ['sem.services'])
     category: {}
   };
 
+  $scope.expense.date = new Date();
+
+  $scope.datePickerCallback = function (val) {
+      if(typeof(val)==='undefined'){      
+          console.log('Date not selected');
+      }else{
+          console.log('Selected date is : ', val);
+      }
+  };
+
   $scope.$on('$ionicView.enter', function(e) {
     console.log("setting false");
     UI.setBackButtonSettings(false, '');
@@ -101,8 +111,12 @@ angular.module('sem.controllers', ['sem.services'])
   }
 
   $scope.addExpense = function(){
-    console.log("Adding new expense(passing): " + $scope.expense.cost + " " + $scope.expense.category.id + " " + $scope.expense);
-    Item.add($scope.expense.cost, $scope.expense.category.id, $scope.expense.date);
+    console.log("Adding new expense(passing): " + $scope.expense.cost + " " + $scope.expense.category.id + " " + $scope.expense.date);
+    var newDate = $scope.expense.date
+    newDate = $filter('date')(newDate, 'd/M/yy');
+    console.log("newDate");
+    console.log(newDate);
+    Item.add($scope.expense.cost, $scope.expense.category.id, newDate);
   }
 
 })

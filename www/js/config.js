@@ -23,8 +23,8 @@ angular.module('sem.config', [])
 			columns: [
 				{ name: 'id', type: 'integer primary key'},
 				{ name: 'categoryId', type: 'integer'},
-				{ name: 'cost', type: 'text'},
-				{ name: 'date', type: 'text'}
+				{ name: 'cost', type: 'float'},
+				{ name: 'date', type: 'datetime'}
 			]
 		}
 	]

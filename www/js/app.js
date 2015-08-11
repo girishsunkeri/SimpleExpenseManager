@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 var db = null;
-angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services'])
+angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services', 'ionic-datepicker'])
 
 .run(function($ionicPlatform, DB) {
   $ionicPlatform.ready(function() {
