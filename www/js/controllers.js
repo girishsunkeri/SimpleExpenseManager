@@ -68,9 +68,35 @@ angular.module('sem.controllers', ['sem.services'])
       };
 })
 
+.controller('ReportCtrl', function($scope, $stateParams, UI, Report) {
+  $scope.reportItems = [];
+
+  $scope.$on('$ionicView.enter', function(e) {
+    UI.setBackButtonSettings(true, '');
+    $scope.updateReportItems();
+  });
+
+  $scope.updateReportItems = function() { 
+    console.log("updating report items");
+    Report.getReport().then(function(reportItems){
+      $scope.reportItems = reportItems;
+    });
+  };
+
+  $scope.getTotal = function(){
+    var total = 0;
+    for(var i = 0; i < $scope.reportItems.length; i++){
+        total += $scope.reportItems[i].totalCost;
+    }
+    return total;
+}
+
+})
 
 
-.controller('DashboardCtrl', function($scope, UI, Category, Item, $filter) {
+
+
+.controller('DashboardCtrl', function($scope, UI, Category, Item, $filter, $ionicLoading) {
 
   $scope.categories = [];
 
@@ -117,6 +143,11 @@ angular.module('sem.controllers', ['sem.services'])
     console.log("newDate");
     console.log(newDate);
     Item.add($scope.expense.cost, $scope.expense.category.id, newDate);
+    $scope.expense.cost = '';
+    $scope.expense.category = {};
+    $scope.expense.date = new Date();
+    $ionicLoading.show({ template: 'Item Added!', noBackdrop: true, duration: 2000 });
+
   }
 
 })

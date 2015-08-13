@@ -186,6 +186,54 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 	return self;
 })
 
+.factory('Report', function($cordovaSQLite, DB){
+	var self = this;
+
+	self.getReport = function(){
+		console.log("getting report items");
+		return DB.query("SELECT categoryId, SUM(cost) as totalCost, title FROM Item INNER JOIN Category ON Item.categoryId = Category.id Group By categoryId")
+			.then(function(result){
+				console.log(result);
+				return DB.getAll(result);
+			});
+	};
+
+	self.allByCategoryId = function(categoryId){
+		var parameters = [categoryId];
+		return DB.query("SELECT id, categoryId, cost, date FROM Item WHERE categoryId = (?)", parameters)
+			.then(function(result){
+				return DB.getAll(result);
+			});
+	};
+
+	self.get = function(itemId){
+		var parameters = [itemId];
+
+		return DB.query("SELECT id, categoryId, cost, date FROM Item WHERE id = (?)", parameters)
+			.then(function(result){
+				return DB.getById(result);
+			});
+	};
+
+	self.add = function(cost, categoryId, date){
+		var parameters = [cost, categoryId, date];
+		console.log(cost + " " + categoryId + " " + date);
+		return DB.query("INSERT INTO Item (cost, categoryId, date) values (?,?,?)", parameters);
+	};
+
+	self.remove = function(itemId){
+		var parameters = [itemId];
+		return DB.query("DELETE FROM Item WHERE id = (?)", parameters);
+	};
+
+	self.update = function(oldItem, newItem){
+		var parameters = [newItem.title, oldItem.id];
+		return DB.query("UPDATE Item SET title = (?) where id = (?)", parameters);
+	};
+
+	return self;
+})
+
 .factory('User', function(){
 	var o = {
 		expenses: []
