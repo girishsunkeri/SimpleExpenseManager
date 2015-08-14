@@ -45,12 +45,12 @@ angular.module('sem.controllers', ['sem.services'])
 
 })
 
-.controller('CategoryCtrl', function($scope, $stateParams, UI, Categories) {
+.controller('CategoryCtrl', function() {
 
 })
 
 
-.controller('ExpenseCtrl', function($scope, $stateParams, UI, Expense) {
+.controller('ExpenseCtrl', function($scope, UI, Expense) {
   $scope.expenses = [];
 
   $scope.$on('$ionicView.enter', function(e) {

@@ -121,13 +121,6 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 		return DB.query("UPDATE Category SET title = (?) where id = (?)", parameters);
 	};
 
-
-	self.init = function(){
-		DB.query("INSERT INTO Category (title) values (?)", ['Shopping']);
-		DB.query("INSERT INTO Category (title) values (?)", ['Chores']);
-		DB.query("INSERT INTO Category (title) values (?)", ['School']);
-	};
-
 	self.getByTitle = function(categoryTitle){
 		var parameters = [categoryTitle];
 		return DB.query("SELECT * FROM Category WHERE Title = (?)", parameters)
@@ -243,17 +236,6 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 })
 
 .factory('User', function(){
-	var o = {
-		expenses: []
-	}
 
-	o.newExpense = function(cost, categoryId, date){
-		return { cost: cost, categoryId: categoryId, date: date };
-	}
 
-	o.addExpense = function(cost, categoryId, date){
-		o.expenses.push(o.newExpense(cost, categoryId, date));
-	}
-
-	return o;
 })
