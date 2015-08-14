@@ -11,15 +11,7 @@ angular.module('sem.config', [])
 			]
 		},
 		{
-			name: 'List',
-			columns: [
-				{ name: 'id', type: 'integer primary key'},
-				{ name: 'categoryId', type: 'integer'},
-				{ name: 'title', type: 'text'}
-			]
-		},
-		{
-			name: 'Item',
+			name: 'Expense',
 			columns: [
 				{ name: 'id', type: 'integer primary key'},
 				{ name: 'categoryId', type: 'integer'},

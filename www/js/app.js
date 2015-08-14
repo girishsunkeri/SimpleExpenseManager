@@ -1,9 +1,3 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
 var db = null;
 angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services', 'ionic-datepicker'])
 
@@ -27,7 +21,6 @@ angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services', 
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
-
     .state('app', {
     url: '/app',
     abstract: true,
@@ -45,53 +38,53 @@ angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services', 
   })
 
   .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
+    url: '/browse',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/browse.html'
       }
-    })
+    }
+  })
 
   .state('app.dashboard', {
-      url: '/dashboard',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/dashboard.html',
-          controller: 'DashboardCtrl'
-        }
+    url: '/dashboard',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/dashboard.html',
+        controller: 'DashboardCtrl'
       }
-    })
+    }
+  })
 
   .state('app.expense', {
-      url: '/expense',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/myExpenses.html',
-          controller: 'ItemCtrl'
-        }
+    url: '/expense',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/myExpenses.html',
+        controller: 'ExpenseCtrl'
       }
-    })
+    }
+  })
 
   .state('app.report', {
-      url: '/report',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/report.html',
-          controller: 'ReportCtrl'
-        }
+    url: '/report',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/report.html',
+        controller: 'ReportCtrl'
       }
-    })
+    }
+  })
 
-    .state('app.categories', {
-      url: '/categories',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/categories.html',
-          controller: 'CategoriesCtrl'
-        }
+  .state('app.categories', {
+    url: '/categories',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/categories.html',
+        controller: 'CategoriesCtrl'
       }
-    })
+    }
+  })
 
   .state('app.category', {
     url: '/categories/:categoryId',
@@ -102,6 +95,6 @@ angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services', 
       }
     }
   });
-  // if none of the above states are matched, use this as the fallback
+
   $urlRouterProvider.otherwise('/app/dashboard');
 });

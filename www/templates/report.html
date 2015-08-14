@@ -2,7 +2,7 @@
 	<ion-content>
 		<label>Total: {{ getTotal() }} </label>
 		<ion-list>
-			<ion-item ng-repeat="expense in reportItems">
+			<ion-item ng-repeat="expense in reportExpenses">
 				{{expense.title}} {{expense.totalCost}}
 			</ion-item>
 		</ion-list>

@@ -40,9 +40,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 				});
 
 				var query = 'CREATE TABLE IF NOT EXISTS ' + table.name + ' (' + columns.join(',') + ')';
-				console.log(query);
 				self.query(query);
-				console.log('Table ' + table.name + ' initialized');
 			});
 		}catch(e){
 			alert(e);
@@ -76,10 +74,6 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 		for(var i = 0; i < result.rows.length; i++){
 			output.push(result.rows.item(i));
 		}
-
-		console.log("output:");
-		console.log(JSON.stringify(output));
-
 		return output;
 	};
 
@@ -134,53 +128,70 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 		DB.query("INSERT INTO Category (title) values (?)", ['School']);
 	};
 
+	self.getByTitle = function(categoryTitle){
+		var parameters = [categoryTitle];
+		return DB.query("SELECT * FROM Category WHERE Title = (?)", parameters)
+				.then(function(result){
+					return DB.getById(result);
+				});
+
+	}
+
 	return self;
 })
 
 
-.factory('Item', function($cordovaSQLite, DB){
+.factory('Expense', function($cordovaSQLite, DB, Category){
 	var self = this;
 
 	self.all = function(){
-		console.log("getting item");
-		return DB.query("SELECT categoryId, cost, date, title FROM Item INNER JOIN Category ON Item.categoryId = Category.id")
+		return DB.query("SELECT categoryId, cost, date, title FROM Expense INNER JOIN Category ON Expense.categoryId = Category.id")
 			.then(function(result){
-				console.log(result);
 				return DB.getAll(result);
 			});
 	};
 
 	self.allByCategoryId = function(categoryId){
 		var parameters = [categoryId];
-		return DB.query("SELECT id, categoryId, cost, date FROM Item WHERE categoryId = (?)", parameters)
+		return DB.query("SELECT id, categoryId, cost, date FROM Expense WHERE categoryId = (?)", parameters)
 			.then(function(result){
 				return DB.getAll(result);
 			});
 	};
 
-	self.get = function(itemId){
-		var parameters = [itemId];
+	self.get = function(expenseId){
+		var parameters = [expenseId];
 
-		return DB.query("SELECT id, categoryId, cost, date FROM Item WHERE id = (?)", parameters)
+		return DB.query("SELECT id, categoryId, cost, date FROM Expense WHERE id = (?)", parameters)
 			.then(function(result){
 				return DB.getById(result);
 			});
 	};
 
 	self.add = function(cost, categoryId, date){
+
+		if(!categoryId){
+			var otherCategory = Category.getByTitle('other');
+			if(otherCategory == undefined){
+				categoryId = otherCategory.id;
+			}else{
+				Category.add('other');
+				categoryId = Category.getByTitle('other').id;
+			}
+		}
+
 		var parameters = [cost, categoryId, date];
-		console.log(cost + " " + categoryId + " " + date);
-		return DB.query("INSERT INTO Item (cost, categoryId, date) values (?,?,?)", parameters);
+		return DB.query("INSERT INTO Expense (cost, categoryId, date) values (?,?,?)", parameters);
 	};
 
-	self.remove = function(itemId){
-		var parameters = [itemId];
-		return DB.query("DELETE FROM Item WHERE id = (?)", parameters);
+	self.remove = function(expenseId){
+		var parameters = [expenseId];
+		return DB.query("DELETE FROM Expense WHERE id = (?)", parameters);
 	};
 
-	self.update = function(oldItem, newItem){
-		var parameters = [newItem.title, oldItem.id];
-		return DB.query("UPDATE Item SET title = (?) where id = (?)", parameters);
+	self.update = function(oldExpense, newExpense){
+		var parameters = [newExpense.title, oldExpense.id];
+		return DB.query("UPDATE Expense SET title = (?) where id = (?)", parameters);
 	};
 
 	return self;
@@ -190,26 +201,24 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 	var self = this;
 
 	self.getReport = function(){
-		console.log("getting report items");
-		return DB.query("SELECT categoryId, SUM(cost) as totalCost, title FROM Item INNER JOIN Category ON Item.categoryId = Category.id Group By categoryId")
+		return DB.query("SELECT categoryId, SUM(cost) as totalCost, title FROM Expense INNER JOIN Category ON Expense.categoryId = Category.id Group By categoryId")
 			.then(function(result){
-				console.log(result);
 				return DB.getAll(result);
 			});
 	};
 
 	self.allByCategoryId = function(categoryId){
 		var parameters = [categoryId];
-		return DB.query("SELECT id, categoryId, cost, date FROM Item WHERE categoryId = (?)", parameters)
+		return DB.query("SELECT id, categoryId, cost, date FROM Expense WHERE categoryId = (?)", parameters)
 			.then(function(result){
 				return DB.getAll(result);
 			});
 	};
 
-	self.get = function(itemId){
-		var parameters = [itemId];
+	self.get = function(expenseId){
+		var parameters = [expenseId];
 
-		return DB.query("SELECT id, categoryId, cost, date FROM Item WHERE id = (?)", parameters)
+		return DB.query("SELECT id, categoryId, cost, date FROM Expense WHERE id = (?)", parameters)
 			.then(function(result){
 				return DB.getById(result);
 			});
@@ -217,18 +226,17 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 
 	self.add = function(cost, categoryId, date){
 		var parameters = [cost, categoryId, date];
-		console.log(cost + " " + categoryId + " " + date);
-		return DB.query("INSERT INTO Item (cost, categoryId, date) values (?,?,?)", parameters);
+		return DB.query("INSERT INTO Expense (cost, categoryId, date) values (?,?,?)", parameters);
 	};
 
-	self.remove = function(itemId){
-		var parameters = [itemId];
-		return DB.query("DELETE FROM Item WHERE id = (?)", parameters);
+	self.remove = function(expenseId){
+		var parameters = [expenseId];
+		return DB.query("DELETE FROM Expense WHERE id = (?)", parameters);
 	};
 
-	self.update = function(oldItem, newItem){
-		var parameters = [newItem.title, oldItem.id];
-		return DB.query("UPDATE Item SET title = (?) where id = (?)", parameters);
+	self.update = function(oldExpense, newExpense){
+		var parameters = [newExpense.title, oldExpense.id];
+		return DB.query("UPDATE Expense SET title = (?) where id = (?)", parameters);
 	};
 
 	return self;
@@ -244,10 +252,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 	}
 
 	o.addExpense = function(cost, categoryId, date){
-
-		console.log("Adding new expense " + cost + " for " + categoryId);
 		o.expenses.push(o.newExpense(cost, categoryId, date));
-		console.log("All expense: " + o.expenses);
 	}
 
 	return o;

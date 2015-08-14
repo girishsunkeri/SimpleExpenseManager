@@ -11,10 +11,10 @@ angular.module('sem.controllers', ['sem.services'])
   });
 
   $scope.updateCategory = function() {
-        Category.all().then(function(categories){
-          $scope.categories = categories;
-        });
-      };
+    Category.all().then(function(categories){
+      $scope.categories = categories;
+    });
+  };
 
   $scope.updateCategory();
 
@@ -34,8 +34,6 @@ angular.module('sem.controllers', ['sem.services'])
   };
 
   $scope.addNewCategory = function(){
-
-    console.log("$scope.categoryTitle: " + $scope.category.title);
     Category.add($scope.category.title);
     $scope.updateCategory();
 
@@ -52,61 +50,56 @@ angular.module('sem.controllers', ['sem.services'])
 })
 
 
-.controller('ItemCtrl', function($scope, $stateParams, UI, Item) {
-  $scope.items = [];
+.controller('ExpenseCtrl', function($scope, $stateParams, UI, Expense) {
+  $scope.expenses = [];
 
   $scope.$on('$ionicView.enter', function(e) {
     UI.setBackButtonSettings(true, '');
-    $scope.updateItems();
+    $scope.updateExpenses();
   });
 
-  $scope.updateItems = function() {
-        console.log("updating items");
-        Item.all().then(function(items){
-          $scope.items = items;
-        });
-      };
+  $scope.updateExpenses = function() {
+    Expense.all().then(function(expenses){
+      $scope.expenses = expenses;
+    });
+  };
 })
 
 .controller('ReportCtrl', function($scope, $stateParams, UI, Report) {
-  $scope.reportItems = [];
+  $scope.reportExpenses = [];
 
   $scope.$on('$ionicView.enter', function(e) {
     UI.setBackButtonSettings(true, '');
-    $scope.updateReportItems();
+    $scope.updateReportExpenses();
   });
 
-  $scope.updateReportItems = function() { 
-    console.log("updating report items");
-    Report.getReport().then(function(reportItems){
-      $scope.reportItems = reportItems;
+  $scope.updateReportExpenses = function() { 
+    Report.getReport().then(function(reportExpenses){
+      $scope.reportExpenses = reportExpenses;
     });
   };
 
   $scope.getTotal = function(){
     var total = 0;
-    for(var i = 0; i < $scope.reportItems.length; i++){
-        total += $scope.reportItems[i].totalCost;
+    for(var i = 0; i < $scope.reportExpenses.length; i++){
+        total += $scope.reportExpenses[i].totalCost;
     }
     return total;
-}
+  }
 
 })
 
-
-
-
-.controller('DashboardCtrl', function($scope, UI, Category, Item, $filter, $ionicLoading) {
+.controller('DashboardCtrl', function($scope, UI, Category, Expense, $filter, $ionicLoading) {
 
   $scope.categories = [];
 
   $scope.activeCategory = {};
 
   $scope.updateCategory = function() {
-        Category.all().then(function(categories){
-          $scope.categories = categories;
-        });
-      };
+    Category.all().then(function(categories){
+      $scope.categories = categories;
+    });
+  };
 
   $scope.expense = {
     cost: '',
@@ -125,61 +118,45 @@ angular.module('sem.controllers', ['sem.services'])
   };
 
   $scope.$on('$ionicView.enter', function(e) {
-    console.log("setting false");
     UI.setBackButtonSettings(false, '');
     $scope.updateCategory();
   });
 
   $scope.addCategoryToExpense = function(category, index){
-    console.log("Added expense to " + category);
     $scope.activeCategory = category;
     $scope.expense.category = category;
   }
 
   $scope.addExpense = function(){
-    console.log("Adding new expense(passing): " + $scope.expense.cost + " " + $scope.expense.category.id + " " + $scope.expense.date);
     var newDate = $scope.expense.date
     newDate = $filter('date')(newDate, 'd/M/yy');
-    console.log("newDate");
-    console.log(newDate);
-    Item.add($scope.expense.cost, $scope.expense.category.id, newDate);
+    Expense.add($scope.expense.cost, $scope.expense.category.id, newDate);
     $scope.expense.cost = '';
     $scope.expense.category = {};
     $scope.expense.date = new Date();
-    $ionicLoading.show({ template: 'Item Added!', noBackdrop: true, duration: 2000 });
-
+    $ionicLoading.show({ template: 'Expense Added!', noBackdrop: true, duration: 2000 });
   }
-
 })
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, UI, $state) {
 
-  // Form data for the login modal
   $scope.loginData = {};
 
-  // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modal = modal;
   });
 
-  // Triggered in the login modal to close it
   $scope.closeLogin = function() {
     $scope.modal.hide();
   };
 
-  // Open the login modal
   $scope.login = function() {
     $scope.modal.show();
   };
 
-  // Perform the login action when the user submits the login form
   $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
     $timeout(function() {
       $scope.closeLogin();
     }, 1000);
