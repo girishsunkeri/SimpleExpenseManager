@@ -35,6 +35,9 @@ angular.module('sem.controllers', ['sem.services'])
 
   $scope.addNewCategory = function(){
     Category.add($scope.category.title);
+
+    var tempCategory = {};
+
     $scope.updateCategory();
 
     $timeout(function(){
@@ -65,7 +68,7 @@ angular.module('sem.controllers', ['sem.services'])
   };
 })
 
-.controller('ReportCtrl', function($scope, $stateParams, UI, Report) {
+.controller('ReportCtrl', function($scope, Report, UI) {
   $scope.reportExpenses = [];
 
   $scope.$on('$ionicView.enter', function(e) {

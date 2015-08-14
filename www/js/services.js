@@ -80,7 +80,12 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 	// Proces a single result
 	self.getById = function(result) {
 		var output = null;
+
+		if(result.rows.length <= 0)
+			return output;
+
 	    output = angular.copy(result.rows.item(0));
+	    console.log(output);
 	    return output;
 	};
 
@@ -123,7 +128,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 
 	self.getByTitle = function(categoryTitle){
 		var parameters = [categoryTitle];
-		return DB.query("SELECT * FROM Category WHERE Title = (?)", parameters)
+		return DB.query("SELECT * FROM Category WHERE Title like (?)", parameters)
 				.then(function(result){
 					return DB.getById(result);
 				});
@@ -164,17 +169,36 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 	self.add = function(cost, categoryId, date){
 
 		if(!categoryId){
-			var otherCategory = Category.getByTitle('other');
-			if(otherCategory == undefined){
-				categoryId = otherCategory.id;
-			}else{
-				Category.add('other');
-				categoryId = Category.getByTitle('other').id;
-			}
+			Category.getByTitle('other')
+				.then(function(result){
+					if(result){
+						categoryId = result.id;
+						console.log("Existing id: "+ categoryId);
+
+						console.log("Inserting categoryId: " + categoryId);
+						var parameters = [cost, categoryId, date];
+						return DB.query("INSERT INTO Expense (cost, categoryId, date) values (?,?,?)", parameters);
+					}else{
+						Category.add('other');
+						Category.getByTitle('other')
+							.then(function(result2){
+								categoryId = result2.id;
+								console.log("New id: "+ categoryId);
+
+								console.log("Inserting categoryId: " + categoryId);
+								var parameters1 = [cost, categoryId, date];
+								return DB.query("INSERT INTO Expense (cost, categoryId, date) values (?,?,?)", parameters1);
+							})
+					}
+
+
+				})
+		}else{
+			var parameters2 = [cost, categoryId, date];
+			return DB.query("INSERT INTO Expense (cost, categoryId, date) values (?,?,?)", parameters2);
 		}
 
-		var parameters = [cost, categoryId, date];
-		return DB.query("INSERT INTO Expense (cost, categoryId, date) values (?,?,?)", parameters);
+		
 	};
 
 	self.remove = function(expenseId){
