@@ -100,7 +100,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     UI.setBackButtonSettings(false, '');
     $scope.updateCategory();
   });
-  
+
   $scope.categories = [];
 
   $scope.activeCategory = {};
@@ -135,7 +135,11 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   $scope.addExpense = function(){
 
     if($scope.expense.cost != parseFloat($scope.expense.cost)){
-      alert("Please enter valid cost");
+      if(window.cordova){
+        $cordovaToast.show('Enter valid cost', 'short', 'center')
+      }else{
+        alert("Enter valid cost");
+      }
       return;
     }
 
@@ -150,13 +154,9 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     $scope.updateCategory();
     
     if(window.cordova){
-      $cordovaToast
-      .show('Here is a message', 'long', 'center')
-      .then(function(success) {
-        // success
-      }, function (error) {
-        // error
-      });
+      $cordovaToast.show('Expense added', 'short', 'center')
+    }else{
+      alert("Expense added");
     }
   }
 })

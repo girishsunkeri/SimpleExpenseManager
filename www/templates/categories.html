@@ -5,8 +5,11 @@
 	</ion-nav-buttons>
 	<ion-content>
 		<ion-list>
-			<ion-item ng-repeat="category in categories" href="#/app/categories/{{category.id}}">
+			<ion-item ng-repeat="category in categories" class="item-icon-right" href="#/app/categories/{{category.id}}">
 			{{category.title}}
+			<button class="button icon ion-edit button-clear"
+                             ng-click="edit(item)">
+          	</button>
 			</ion-item>
 		</ion-list>
 	</ion-content>
