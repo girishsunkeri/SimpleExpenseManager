@@ -48,6 +48,7 @@ angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services', 
 
   .state('app.dashboard', {
     url: '/dashboard',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/dashboard.html',

@@ -1,16 +1,25 @@
 1) Dashboard page
-    ========12/Aug/15
+    =======12/Aug/15 
 	a) Auto focus on cost textbox when page loads - done
 	b) Provide date picker - done
-	c) Make cost to only accept integer values
+	c) Make cost to only accept floating values
 	d) Select current date by default - done
-	========13/Aug/15
-	a) Allow to add expense without category 
-	b) Add default category 
-	c) Sort Category on category usage frequency
+	X=======13/Aug/15
+	a) Allow to add expense without category - done
+	b) Add default category - done
+	c) Sort Category on category usage frequency - done
+	========15/Aug/15
+	a) "Back" text is displayed for some time
+	b) If you select a category and go to other page that selection remains selected
+		i) You can remove the selection
+					OR
+		ii) Show that a particular category is already selected
+	c) Change styling of displaying validation errors
+	d) Allow to add previous date
+	e) Add confirm box if category not selected
 
 2) Categories page
-	========13/Aug/2015
+	========13/Aug/15
 	a) Edit category
 
 
@@ -27,7 +36,7 @@
     ========13/Aug/15
 	a) Display report by category - done
 	b) Display total spendings on top - done
-	c) Display report given start and end date
+	c) Display report by given start and end date
 
 6) Allow user to set start date=========13/Aug/15
 	

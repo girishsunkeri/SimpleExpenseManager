@@ -102,6 +102,15 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 			});
 	};
 
+	self.allByFrequency = function(){
+		return DB.query("SELECT c.id, title, COUNT(e.id) as e_Count FROM Category c LEFT JOIN" +
+			 " Expense e on c.id = e.categoryId AND title != 'other' Group BY c.id Order by e_Count DESC, title")
+				.then(function(result){
+					return DB.getAll(result);
+				})
+
+	};
+
 	self.get = function(categoryId){
 		var parameters = [categoryId];
 

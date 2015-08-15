@@ -1,4 +1,4 @@
-angular.module('sem.controllers', ['sem.services'])
+angular.module('sem.controllers', ['sem.services', 'ngCordova'])
 
 .controller('CategoriesCtrl', function($scope, $ionicModal, $timeout, UI, Category) {
 
@@ -92,14 +92,21 @@ angular.module('sem.controllers', ['sem.services'])
 
 })
 
-.controller('DashboardCtrl', function($scope, UI, Category, Expense, $filter, $ionicLoading) {
+.controller('DashboardCtrl', function($scope, UI, Category, Expense, $filter, $cordovaToast) {
 
+  //UI.setBackButtonSettings(false, '');
+
+  $scope.$on('$ionicView.enter', function(e) {
+    UI.setBackButtonSettings(false, '');
+    $scope.updateCategory();
+  });
+  
   $scope.categories = [];
 
   $scope.activeCategory = {};
 
   $scope.updateCategory = function() {
-    Category.all().then(function(categories){
+    Category.allByFrequency().then(function(categories){
       $scope.categories = categories;
     });
   };
@@ -120,24 +127,37 @@ angular.module('sem.controllers', ['sem.services'])
       }
   };
 
-  $scope.$on('$ionicView.enter', function(e) {
-    UI.setBackButtonSettings(false, '');
-    $scope.updateCategory();
-  });
-
   $scope.addCategoryToExpense = function(category, index){
     $scope.activeCategory = category;
     $scope.expense.category = category;
   }
 
   $scope.addExpense = function(){
+
+    if($scope.expense.cost != parseFloat($scope.expense.cost)){
+      alert("Please enter valid cost");
+      return;
+    }
+
+
     var newDate = $scope.expense.date
     newDate = $filter('date')(newDate, 'd/M/yy');
     Expense.add($scope.expense.cost, $scope.expense.category.id, newDate);
     $scope.expense.cost = '';
     $scope.expense.category = {};
     $scope.expense.date = new Date();
-    $ionicLoading.show({ template: 'Expense Added!', noBackdrop: true, duration: 2000 });
+
+    $scope.updateCategory();
+    
+    if(window.cordova){
+      $cordovaToast
+      .show('Here is a message', 'long', 'center')
+      .then(function(success) {
+        // success
+      }, function (error) {
+        // error
+      });
+    }
   }
 })
 
