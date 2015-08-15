@@ -130,8 +130,8 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 		return DB.query("DELETE FROM Category WHERE id = (?)", parameters);
 	};
 
-	self.update = function(oldCategory, newCategory){
-		var parameters = [newCategory.title, oldCategory.id];
+	self.update = function(categoryTitle, categoryId){
+		var parameters = [categoryTitle, categoryId];
 		return DB.query("UPDATE Category SET title = (?) where id = (?)", parameters);
 	};
 

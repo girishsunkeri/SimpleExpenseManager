@@ -1,6 +1,6 @@
 <ion-modal-view>
 	<ion-header-bar>
-		<h1 class="title">Add Category</h1>
+		<h1 class="title">{{addAction ? 'Add' : 'Edit'}} Category</h1>
 		<div class="buttons">
 			<button class="button button-clear" ng-click="closeNewCategory()">Close</button>
 		</div>
@@ -10,10 +10,10 @@
 			<div class="list">
 				<label class="item item-input">
 					<span class="input-label">Title</span>
-					<input type="text" ng-model="category.title">
+					<input type="text" ng-model="category.title" autofocus>
 				</label>
 				<label class="item">
-					<button class="button button-block button-positive" type="submit">Add</button>
+					<button class="button button-block button-positive" type="submit">{{addAction ? 'Add' : 'Save'}}</button>
 				</label>
 			</div>
 		</form>

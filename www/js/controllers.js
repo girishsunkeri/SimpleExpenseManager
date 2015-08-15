@@ -29,15 +29,36 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     $scope.modal.hide();
   };
 
-  $scope.openNewCategory = function(){
+  $scope.openNewCategory = function(addCategory, category){
+
+    if(addCategory){
+      $scope.addAction = true;
+      $scope.category = {};
+    }else{
+      $scope.addAction = false;
+      $scope.category = angular.copy(category);
+    }
+
     $scope.modal.show();
   };
 
   $scope.addNewCategory = function(){
-    Category.add($scope.category.title);
 
-    var tempCategory = {};
+    if($scope.category.title == undefined || $scope.category.title == ''){
+      if(window.cordova){
+        $cordovaToast.show('Enter title', 'short', 'top');
+      }else{
+        alert("Enter title");
+      }
+      return;
+    }
 
+    if($scope.addAction){
+      Category.add($scope.category.title);
+    }else{
+      Category.update($scope.category.title, $scope.category.id);
+    }
+    
     $scope.updateCategory();
 
     $timeout(function(){
@@ -92,7 +113,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
 
 })
 
-.controller('DashboardCtrl', function($scope, UI, Category, Expense, $filter, $cordovaToast) {
+.controller('DashboardCtrl', function($scope, UI, Category, Expense, $filter, $cordovaToast, $ionicPopup) {
 
   //UI.setBackButtonSettings(false, '');
 
@@ -143,21 +164,51 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
       return;
     }
 
+    if($scope.expense.category.id == undefined || $scope.expense.category.id == 0){
+      console.log("if part");
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Category Not Selected',
+        template: 'This expense will be added to others'
+      });
+      confirmPopup.then(function(res) {
+        if(!res) {
+          return;
+        } else{
+          var newDate = $scope.expense.date
+          newDate = $filter('date')(newDate, 'd/M/yy');
+          Expense.add($scope.expense.cost, $scope.expense.category.id, newDate);
+          $scope.expense.cost = '';
+          $scope.expense.category = {};
+          $scope.expense.date = new Date();
 
-    var newDate = $scope.expense.date
-    newDate = $filter('date')(newDate, 'd/M/yy');
-    Expense.add($scope.expense.cost, $scope.expense.category.id, newDate);
-    $scope.expense.cost = '';
-    $scope.expense.category = {};
-    $scope.expense.date = new Date();
-
-    $scope.updateCategory();
-    
-    if(window.cordova){
-      $cordovaToast.show('Expense added', 'short', 'center')
+          $scope.updateCategory();
+          
+          if(window.cordova){
+            $cordovaToast.show('Expense added', 'short', 'center')
+          }else{
+            alert("Expense added");
+          }
+        }
+      });
     }else{
-      alert("Expense added");
+      console.log("else part");
+      var newDate2 = $scope.expense.date
+      newDate2 = $filter('date')(newDate2, 'd/M/yy');
+      Expense.add($scope.expense.cost, $scope.expense.category.id, newDate2);
+      $scope.expense.cost = '';
+      $scope.expense.category = {};
+      $scope.expense.date = new Date();
+
+      $scope.updateCategory();
+      
+      if(window.cordova){
+        $cordovaToast.show('Expense added', 'short', 'center')
+      }else{
+        alert("Expense added");
+      }
     }
+
+    
   }
 })
 

@@ -16,11 +16,11 @@
 		ii) Show that a particular category is already selected
 	c) Change styling of displaying validation errors
 	d) Allow to add previous date
-	e) Add confirm box if category not selected
+	e) Add confirm box if category not selected - done
 
 2) Categories page
-	========13/Aug/15
-	a) Edit category
+	x=======13/Aug/15
+	a) Edit category - done
 
 
 3) Add Category page

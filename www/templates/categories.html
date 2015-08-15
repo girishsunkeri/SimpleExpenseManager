@@ -1,14 +1,14 @@
 <ion-view view-title="Categories">
 	<ion-nav-buttons side="right">
-		<button class="button button-icon ion-compose" ng-click="openNewCategory()">
+		<button class="button button-icon ion-compose" ng-click="openNewCategory(true, 0)">
 		</button>
 	</ion-nav-buttons>
 	<ion-content>
 		<ion-list>
-			<ion-item ng-repeat="category in categories" class="item-icon-right" href="#/app/categories/{{category.id}}">
+			<ion-item ng-repeat="category in categories" class="item-icon-right" href="#">
 			{{category.title}}
 			<button class="button icon ion-edit button-clear"
-                             ng-click="edit(item)">
+                             ng-click="openNewCategory(false, category)">
           	</button>
 			</ion-item>
 		</ion-list>
