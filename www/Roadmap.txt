@@ -17,6 +17,10 @@
 	c) Change styling of displaying validation errors
 	d) Allow to add previous date
 	e) Add confirm box if category not selected - done
+	=========18/Aug/15
+	a) Add dropdown to display remaining categories
+	b) Display data in chart format
+	c) Add TextBox to add sub task
 
 2) Categories page
 	x=======13/Aug/15
