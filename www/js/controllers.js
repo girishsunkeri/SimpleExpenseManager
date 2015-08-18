@@ -113,27 +113,73 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
 
 })
 
-.controller('DashboardCtrl', function($scope, UI, Category, Expense, $filter, $cordovaToast, $ionicPopup) {
+.controller('DashboardCtrl', function($scope, UI, Category, Expense, $filter, $cordovaToast, $ionicPopup, $ionicModal) {
 
   //UI.setBackButtonSettings(false, '');
+
+  $scope.showCategoriesModal = function() {
+      $scope.openCategoriesModal();
+    }
+
+    $ionicModal.fromTemplateUrl('templates/more_categories.html', {
+      scope: $scope,
+      animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.categoriesModal = modal;
+    });
+
+    $scope.openCategoriesModal = function() {
+      $scope.categoriesModal.show();
+    };
+
+    $scope.closeCategoriesModal = function() {
+      $scope.categoriesModal.hide();
+    };
+
+    $scope.$on('$destroy', function() {
+      $scope.categoriesModal.remove();
+    });
+
+    $scope.$on('categoriesModal.hidden', function() {
+      // Execute action
+    });
+
+    $scope.$on('categoriesModal.removed', function() {
+      // Execute action
+    });
+    
+    $scope.selectCategory = function(category) {
+      $scope.activeCategory = category;
+      $scope.expense.category = category;
+      $scope.additionalCategoryTitle = category.title;
+      $scope.closeCategoriesModal();
+    }
 
   $scope.$on('$ionicView.enter', function(e) {
     UI.setBackButtonSettings(false, '');
     $scope.updateCategory();
+    $scope.additionalCategoryTitle = "More Categories";
   });
 
   $scope.categories = [];
 
   $scope.activeCategory = {};
 
+  $scope.firstFourcategories = [];
+
   $scope.updateCategory = function() {
     Category.allByFrequency().then(function(categories){
       $scope.categories = categories;
+      $scope.firstFourcategories = $filter('limitTo')($scope.categories, 4);
+      console.log($scope.firstFourcategories);
+      $scope.categories.splice(0, 4);
+      $scope.additionalCategoryTitle = "More Categories";
     });
   };
 
   $scope.expense = {
     cost: '',
+    details: '',
     date: '',
     category: {}
   };
@@ -151,6 +197,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   $scope.addCategoryToExpense = function(category, index){
     $scope.activeCategory = category;
     $scope.expense.category = category;
+    $scope.additionalCategoryTitle = "More Categories";
   }
 
   $scope.addExpense = function(){
@@ -176,9 +223,10 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
         } else{
           var newDate = $scope.expense.date
           newDate = $filter('date')(newDate, 'd/M/yy');
-          Expense.add($scope.expense.cost, $scope.expense.category.id, newDate);
+          Expense.add($scope.expense.cost, $scope.expense.category.id, newDate, $scope.expense.details);
           $scope.expense.cost = '';
           $scope.expense.category = {};
+          $scope.expense.details = '';
           $scope.expense.date = new Date();
 
           $scope.updateCategory();
@@ -194,9 +242,10 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
       console.log("else part");
       var newDate2 = $scope.expense.date
       newDate2 = $filter('date')(newDate2, 'd/M/yy');
-      Expense.add($scope.expense.cost, $scope.expense.category.id, newDate2);
+      Expense.add($scope.expense.cost, $scope.expense.category.id, newDate2, $scope.expense.details);
       $scope.expense.cost = '';
       $scope.expense.category = {};
+      $scope.expense.details = '';
       $scope.expense.date = new Date();
 
       $scope.updateCategory();

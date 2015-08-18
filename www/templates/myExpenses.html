@@ -3,7 +3,7 @@
 		<ion-list>
 			<ion-item ng-repeat="expense in expenses">
 				<div class="expense-content col-1-3 text-align-left">{{expense.title}}</div>
-				<div class="expense-content col-1-3 text-align-center">{{expense.date}}</div>
+				<div class="expense-content col-1-3 text-align-center">{{expense.details}} {{expense.date}}</div>
 				<div class="expense-content col-1-3 text-align-right">{{expense.cost}}</div>
 			</ion-item>
 		</ion-list>

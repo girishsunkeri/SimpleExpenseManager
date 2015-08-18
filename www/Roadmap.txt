@@ -17,6 +17,17 @@
 	c) Change styling of displaying validation errors
 	d) Allow to add previous date
 	e) Add confirm box if category not selected - done
+	f) Display chart of Expense
+	========16/Aug/15
+	a) Display top 4 categories as quick select
+	b) Display Remaining categories in dropdown
+	c) Allow them to configure number of categories in quick select
+	========18/Aug/15
+	a) Add dropdown - done
+	b) Display only First 4 - done
+	c) Display remaining in dropdown - done
+	d) Add text box for sub expense type - done
+	e) Allow to add sub expense and display them on required screens - done
 
 2) Categories page
 	x=======13/Aug/15
@@ -40,3 +51,4 @@
 
 6) Allow user to set start date=========13/Aug/15
 	
+7) Allow option to add budget===========15/Aug/15

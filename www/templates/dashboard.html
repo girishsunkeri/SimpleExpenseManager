@@ -8,11 +8,20 @@
 				</label>
 				<button class="button button-positive ion-checkmark" ng-click="addExpense()">Add</button>
 			</div>
+			<div class="item item-input-inset row-item-wrapper">
+				<label class="item item-input-wrapper dashboard-input">
+					<input type="text" ng-model="expense.details" placeholder="Details">
+				</label>
+			</div>
 			<div class="dashboard-category-wrapper">
-				<ion-item ng-repeat="category in categories" class="dashboard-category" ng-click="addCategoryToExpense(category, $index)" ng-class="{active: activeCategory == category}">
+				<ion-item ng-repeat="category in firstFourcategories" class="dashboard-category" ng-click="addCategoryToExpense(category, $index)" ng-class="{active: activeCategory == category}">
 					{{category.title}}
 				</ion-item>
 			</div>
+
+			<button class="button button-stable" ng-click="showCategoriesModal()" ng-if="categories.length != 0">
+	         	{{additionalCategoryTitle}}
+	        </button>
 
 			<div class="item item-input-inset row-item-wrapper">
 				<ionic-datepicker idate="expense.date" disablepreviousdates="true"  disablefuturedates=
@@ -20,6 +29,7 @@
 				      <button class="button button-block button-positive"> {{ expense.date | date:'dd - MMMM - yyyy' }} </button>
 				</ionic-datepicker>
 			</div>
+			
 		</div>
 	</ion-content>
 </ion-view>

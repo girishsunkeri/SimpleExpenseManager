@@ -16,6 +16,7 @@ angular.module('sem.config', [])
 				{ name: 'id', type: 'integer primary key'},
 				{ name: 'categoryId', type: 'integer'},
 				{ name: 'cost', type: 'float'},
+				{ name: 'details', type: 'text'},
 				{ name: 'date', type: 'datetime'}
 			]
 		}

@@ -152,7 +152,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 	var self = this;
 
 	self.all = function(){
-		return DB.query("SELECT categoryId, cost, date, title FROM Expense INNER JOIN Category ON Expense.categoryId = Category.id")
+		return DB.query("SELECT categoryId, cost, date, details, title FROM Expense INNER JOIN Category ON Expense.categoryId = Category.id")
 			.then(function(result){
 				return DB.getAll(result);
 			});
@@ -160,7 +160,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 
 	self.allByCategoryId = function(categoryId){
 		var parameters = [categoryId];
-		return DB.query("SELECT id, categoryId, cost, date FROM Expense WHERE categoryId = (?)", parameters)
+		return DB.query("SELECT id, categoryId, cost, date, details FROM Expense WHERE categoryId = (?)", parameters)
 			.then(function(result){
 				return DB.getAll(result);
 			});
@@ -169,13 +169,13 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 	self.get = function(expenseId){
 		var parameters = [expenseId];
 
-		return DB.query("SELECT id, categoryId, cost, date FROM Expense WHERE id = (?)", parameters)
+		return DB.query("SELECT id, categoryId, cost, date, details FROM Expense WHERE id = (?)", parameters)
 			.then(function(result){
 				return DB.getById(result);
 			});
 	};
 
-	self.add = function(cost, categoryId, date){
+	self.add = function(cost, categoryId, date, details){
 
 		if(!categoryId){
 			Category.getByTitle('other')
@@ -185,8 +185,8 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 						console.log("Existing id: "+ categoryId);
 
 						console.log("Inserting categoryId: " + categoryId);
-						var parameters = [cost, categoryId, date];
-						return DB.query("INSERT INTO Expense (cost, categoryId, date) values (?,?,?)", parameters);
+						var parameters = [cost, categoryId, date, details];
+						return DB.query("INSERT INTO Expense (cost, categoryId, date, details) values (?,?,?,?)", parameters);
 					}else{
 						Category.add('other');
 						Category.getByTitle('other')
@@ -195,16 +195,16 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 								console.log("New id: "+ categoryId);
 
 								console.log("Inserting categoryId: " + categoryId);
-								var parameters1 = [cost, categoryId, date];
-								return DB.query("INSERT INTO Expense (cost, categoryId, date) values (?,?,?)", parameters1);
+								var parameters1 = [cost, categoryId, date, details];
+								return DB.query("INSERT INTO Expense (cost, categoryId, date, details) values (?,?,?,?)", parameters1);
 							})
 					}
 
 
 				})
 		}else{
-			var parameters2 = [cost, categoryId, date];
-			return DB.query("INSERT INTO Expense (cost, categoryId, date) values (?,?,?)", parameters2);
+			var parameters2 = [cost, categoryId, date, details];
+			return DB.query("INSERT INTO Expense (cost, categoryId, date, details) values (?,?,?,?)", parameters2);
 		}
 
 		
