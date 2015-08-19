@@ -28,6 +28,7 @@
 	c) Display remaining in dropdown - done
 	d) Add text box for sub expense type - done
 	e) Allow to add sub expense and display them on required screens - done
+	f) Display data in chart format
 
 2) Categories page
 	x=======13/Aug/15
@@ -55,4 +56,7 @@
 
 6) Allow user to set start date=========13/Aug/15
 	
+
 7) Allow option to add budget===========15/Aug/15
+=======
+
