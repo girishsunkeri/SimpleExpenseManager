@@ -42,6 +42,10 @@
 	b) Allow group by category feature
 	========13/Aug/15
 	a) Edit expense
+	========19/Aug/15
+	a) Acc accordian functionaility
+	b) Remove back button functionaility
+	c) Display previous screen on click on system back button.
 
 5) Report
     ========13/Aug/15
