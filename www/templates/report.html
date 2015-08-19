@@ -8,7 +8,7 @@
 			<div ng-repeat="category in reportExpenses">
 				<ion-item ng-click="toggleGroup(category, $index)" ng-class="{active: isCategoryShown(category)}">
 					<div class="inline-block col-1-2 text-align-left">
-						<i class="icon" ng-class="isCategoryShown(category) ? 'ion-minus' : 'ion-plus'"></i>
+						<i class="icon" ng-class="isCategoryShown(category) ? 'ion-chevron-up' : 'ion-chevron-down'"></i>
 	            		&nbsp;
 						{{category.title}}
 					</div>
