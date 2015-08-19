@@ -7,7 +7,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   $scope.categories = [];
 
   $scope.$on('$ionicView.enter', function(e) {
-    UI.setBackButtonSettings(true, '');
+    //UI.setBackButtonSettings(true, '');
   });
 
   $scope.updateCategory = function() {
@@ -78,7 +78,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   $scope.expenses = [];
 
   $scope.$on('$ionicView.enter', function(e) {
-    UI.setBackButtonSettings(true, '');
+    //UI.setBackButtonSettings(true, '');
     $scope.updateExpenses();
   });
 
@@ -89,11 +89,11 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   };
 })
 
-.controller('ReportCtrl', function($scope, Report, UI) {
+.controller('ReportCtrl', function($scope, Report, UI, Expense, $timeout) {
   $scope.reportExpenses = [];
 
   $scope.$on('$ionicView.enter', function(e) {
-    UI.setBackButtonSettings(true, '');
+    //UI.setBackButtonSettings(true, '');
     $scope.updateReportExpenses();
   });
 
@@ -110,6 +110,26 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     }
     return total;
   }
+
+  $scope.toggleGroup = function(category, index) {
+    if ($scope.isCategoryShown(category)) {
+      $scope.shownCategory = null;
+    } else {
+      Expense.allByCategoryId(category.categoryId).then(function(categoryExpenses){
+        $scope.reportExpenses[index].expenses = categoryExpenses;
+      })
+
+      $timeout(function(){
+        $scope.shownCategory = category;
+      }, 100)
+
+
+    }
+  };
+
+  $scope.isCategoryShown = function(category) {
+    return $scope.shownCategory === category;
+  };
 
 })
 
@@ -156,7 +176,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     }
 
   $scope.$on('$ionicView.enter', function(e) {
-    UI.setBackButtonSettings(false, '');
+    //UI.setBackButtonSettings(false, '');
     $scope.updateCategory();
     $scope.additionalCategoryTitle = "More Categories";
   });
@@ -211,6 +231,11 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
       return;
     }
 
+    var expenseDetails = $scope.expense.details;
+    if($scope.expense.details == ''){
+      expenseDetails = '----';
+    }
+
     if($scope.expense.category.id == undefined || $scope.expense.category.id == 0){
       console.log("if part");
       var confirmPopup = $ionicPopup.confirm({
@@ -223,7 +248,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
         } else{
           var newDate = $scope.expense.date
           newDate = $filter('date')(newDate, 'd/M/yy');
-          Expense.add($scope.expense.cost, $scope.expense.category.id, newDate, $scope.expense.details);
+          Expense.add($scope.expense.cost, $scope.expense.category.id, newDate, expenseDetails);
           $scope.expense.cost = '';
           $scope.expense.category = {};
           $scope.expense.details = '';
@@ -242,7 +267,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
       console.log("else part");
       var newDate2 = $scope.expense.date
       newDate2 = $filter('date')(newDate2, 'd/M/yy');
-      Expense.add($scope.expense.cost, $scope.expense.category.id, newDate2, $scope.expense.details);
+      Expense.add($scope.expense.cost, $scope.expense.category.id, newDate2, expenseDetails);
       $scope.expense.cost = '';
       $scope.expense.category = {};
       $scope.expense.details = '';

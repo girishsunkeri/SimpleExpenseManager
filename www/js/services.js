@@ -235,7 +235,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 
 	self.allByCategoryId = function(categoryId){
 		var parameters = [categoryId];
-		return DB.query("SELECT id, categoryId, cost, date FROM Expense WHERE categoryId = (?)", parameters)
+		return DB.query("SELECT id, categoryId, cost, date, details FROM Expense WHERE categoryId = (?)", parameters)
 			.then(function(result){
 				return DB.getAll(result);
 			});

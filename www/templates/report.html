@@ -5,14 +5,25 @@
 				<div class="inline-block col-1-2 text-align-left text-bold">Total</div>
 				<div class="inline-block col-1-2 text-align-right text-bold">{{getTotal()}}</div>
 			</ion-item>
-			<ion-item ng-repeat="expense in reportExpenses">
-				<div class="inline-block col-1-2 text-align-left">
-					{{expense.title}}
-				</div>
-				<div class="inline-block col-1-2 text-align-right">
-				 	{{expense.totalCost}}
-				</div>
-			</ion-item>
+			<div ng-repeat="category in reportExpenses">
+				<ion-item ng-click="toggleGroup(category, $index)" ng-class="{active: isCategoryShown(category)}">
+					<div class="inline-block col-1-2 text-align-left">
+						<i class="icon" ng-class="isCategoryShown(category) ? 'ion-minus' : 'ion-plus'"></i>
+	            		&nbsp;
+						{{category.title}}
+					</div>
+					<div class="inline-block col-1-2 text-align-right">
+					 	{{category.totalCost}}
+					</div>
+				</ion-item>
+				<ion-item class="item-accordion"
+	                    ng-repeat="expense in category.expenses"
+	                    ng-show="isCategoryShown(category)">
+	            	<div class="expense-content col-1-3 text-align-left">{{expense.details}}</div>
+					<div class="expense-content col-1-3 text-align-center">{{expense.date}}</div>
+					<div class="expense-content col-1-3 text-align-right">{{expense.cost}}</div>
+	          </ion-item>
+			</div>
 		</ion-list>
 	</ion-content>
 </ion-view>
