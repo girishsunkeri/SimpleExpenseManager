@@ -1,6 +1,16 @@
 <ion-view view-title="Report">
 	<ion-content>
 		<ion-list>
+			<ionic-datepicker class="ionic-datepicker col-1-2 inline-block text-align-center" idate="startDate" disablepreviousdates="true"  	
+			        disablefuturedates=
+				    "false" callback="startDatePickerCallback" disableddates="disabledDates" title="title" mondayfirst="true">
+				From: <button class="button button-positive"> {{ startDate | date:'dd - MMMM - yyyy' }} </button>
+			</ionic-datepicker><!--
+			--><ionic-datepicker class="ionic-datepicker col-1-2 inline-block text-align-center" idate="endDate" disablepreviousdates="true"  
+				disablefuturedates=
+			    "false" callback="endDatePickerCallback" disableddates="disabledDates" title="title" mondayfirst="true">
+			    To: <button class="button button-positive"> {{ endDate | date:'dd - MMMM - yyyy' }} </button>
+			</ionic-datepicker>
 			<ion-item>
 				<div class="inline-block col-1-2 text-align-left text-bold">Total</div>
 				<div class="inline-block col-1-2 text-align-right text-bold">{{getTotal()}}</div>

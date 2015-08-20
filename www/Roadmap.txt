@@ -52,7 +52,7 @@
     ========13/Aug/15
 	a) Display report by category - done
 	b) Display total spendings on top - done
-	c) Display report by given start and end date
+	c) Display report by given start and end date - done
 
 6) Allow user to set start date=========13/Aug/15
 	

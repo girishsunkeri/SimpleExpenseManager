@@ -92,13 +92,19 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
 .controller('ReportCtrl', function($scope, Report, UI, Expense, $timeout) {
   $scope.reportExpenses = [];
 
+  $scope.startDate = new Date();
+
+  var endDate = new Date();
+  endDate.setFullYear(endDate.getFullYear() + 5); 
+  $scope.endDate = endDate;
+
   $scope.$on('$ionicView.enter', function(e) {
     //UI.setBackButtonSettings(true, '');
     $scope.updateReportExpenses();
   });
 
   $scope.updateReportExpenses = function() { 
-    Report.getReport().then(function(reportExpenses){
+    Report.getReportByDate($scope.startDate, $scope.endDate).then(function(reportExpenses){
       $scope.reportExpenses = reportExpenses;
     });
   };
@@ -115,7 +121,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     if ($scope.isCategoryShown(category)) {
       $scope.shownCategory = null;
     } else {
-      Expense.allByCategoryId(category.categoryId).then(function(categoryExpenses){
+      Expense.allByCategoryId(category.categoryId, $scope.startDate, $scope.endDate).then(function(categoryExpenses){
         $scope.reportExpenses[index].expenses = categoryExpenses;
       })
 
@@ -129,6 +135,16 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
 
   $scope.isCategoryShown = function(category) {
     return $scope.shownCategory === category;
+  };
+
+  $scope.startDatePickerCallback = function (val) {
+    $scope.startDate = val;
+      $scope.updateReportExpenses();
+  };
+
+  $scope.endDatePickerCallback = function (val) {
+    $scope.endDate = val;
+      $scope.updateReportExpenses();
   };
 
 })
@@ -247,7 +263,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
           return;
         } else{
           var newDate = $scope.expense.date
-          newDate = $filter('date')(newDate, 'd/M/yy');
+          newDate = $filter('date')(newDate, 'dd/MM/yyyy');
           Expense.add($scope.expense.cost, $scope.expense.category.id, newDate, expenseDetails);
           $scope.expense.cost = '';
           $scope.expense.category = {};
@@ -266,7 +282,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     }else{
       console.log("else part");
       var newDate2 = $scope.expense.date
-      newDate2 = $filter('date')(newDate2, 'd/M/yy');
+      newDate2 = $filter('date')(newDate2, 'dd/MM/yyyy');
       Expense.add($scope.expense.cost, $scope.expense.category.id, newDate2, expenseDetails);
       $scope.expense.cost = '';
       $scope.expense.category = {};

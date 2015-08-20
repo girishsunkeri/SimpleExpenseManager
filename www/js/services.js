@@ -148,7 +148,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 })
 
 
-.factory('Expense', function($cordovaSQLite, DB, Category){
+.factory('Expense', function($cordovaSQLite, DB, Category, $filter){
 	var self = this;
 
 	self.all = function(){
@@ -158,9 +158,11 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 			});
 	};
 
-	self.allByCategoryId = function(categoryId){
-		var parameters = [categoryId];
-		return DB.query("SELECT id, categoryId, cost, date, details FROM Expense WHERE categoryId = (?)", parameters)
+	self.allByCategoryId = function(categoryId, startDate, endDate){
+		startDate = $filter('date')(startDate, 'yyyyMMdd');
+		endDate = $filter('date')(endDate, 'yyyyMMdd');
+		var parameters = [categoryId, startDate, endDate];
+		return DB.query("SELECT id, categoryId, cost, date, substr(date,7)||substr(date,4,2)||substr(date,1,2) as newDate, details FROM Expense WHERE categoryId = (?) and newDate between (?) and (?)", parameters)
 			.then(function(result){
 				return DB.getAll(result);
 			});
@@ -223,11 +225,22 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 	return self;
 })
 
-.factory('Report', function($cordovaSQLite, DB){
+.factory('Report', function($cordovaSQLite, DB, $filter){
 	var self = this;
 
 	self.getReport = function(){
 		return DB.query("SELECT categoryId, SUM(cost) as totalCost, title FROM Expense INNER JOIN Category ON Expense.categoryId = Category.id Group By categoryId")
+			.then(function(result){
+				return DB.getAll(result);
+			});
+	};
+
+	self.getReportByDate = function(startDate, endDate){
+		startDate = $filter('date')(startDate, 'yyyyMMdd');
+		endDate = $filter('date')(endDate, 'yyyyMMdd');
+		var parameters = [startDate, endDate];
+		console.log("startDate: "+startDate+" endDate: "+ endDate);
+		return DB.query("SELECT categoryId, SUM(cost) as totalCost, title, substr(date,7)||substr(date,4,2)||substr(date,1,2) as newDate FROM Expense INNER JOIN Category ON Expense.categoryId = Category.id WHERE newDate between (?) and (?) Group By categoryId", parameters)
 			.then(function(result){
 				return DB.getAll(result);
 			});
