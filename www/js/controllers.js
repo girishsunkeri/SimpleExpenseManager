@@ -233,6 +233,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   $scope.addCategoryToExpense = function(category, index){
     $scope.activeCategory = category;
     $scope.expense.category = category;
+    console.log(category);
     $scope.additionalCategoryTitle = "More Categories";
   }
 

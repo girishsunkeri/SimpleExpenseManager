@@ -4,13 +4,21 @@
 }
 
 .dashboard-category {
-	display: inline-block;
+	margin-right: 5px;
+	border-radius: 10px;
+	width: 25%;
+	text-align: center;
+}
+
+.dashboard-category1 {
 	margin-right: 5px;
 	border-radius: 10px;
 	padding: 6px 0 6px 0;
-	background-color: #DCDCDC;
-	width: 40%;
 	text-align: center;
+}
+
+.category-select {
+	background-color: #000;
 }
 
 .dashboard-input {

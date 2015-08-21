@@ -14,9 +14,22 @@
 				</label>
 			</div>
 			<div class="dashboard-category-wrapper item item-input-inset row-item-wrapper">
-				<ion-item ng-repeat="category in firstFourcategories" class="dashboard-category" ng-click="addCategoryToExpense(category, $index)" ng-class="{active: activeCategory == category}">
-					<div class="inline-block">{{category.title}}</div>
-				</ion-item>
+				<button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[0], $index)" 
+				ng-class="{ 'button-positive' : activeCategory == firstFourcategories[0] }">
+		         	{{firstFourcategories[0].title}}
+		        </button>
+		        <button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[1], $index)" 
+				ng-class="{ 'button-positive' : activeCategory == firstFourcategories[1] }">
+		         	{{firstFourcategories[1].title}}
+		        </button>
+		        <button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[2], $index)" 
+				ng-class="{ 'button-positive' : activeCategory == firstFourcategories[2] }">
+		         	{{firstFourcategories[2].title}}
+		        </button>
+		        <button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[3], $index)" 
+				ng-class="{ 'button-positive' : activeCategory == firstFourcategories[3] }">
+		         	{{firstFourcategories[3].title}}
+		        </button>
 			</div>
 
 			<div class="item item-input-inset">
