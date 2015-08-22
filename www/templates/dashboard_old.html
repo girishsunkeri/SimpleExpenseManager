@@ -43,7 +43,7 @@
 			<div class="item item-input-inset row-item-wrapper">
 				<ionic-datepicker class="ionic-datepicker" idate="expense.date" disablepreviousdates="true"  disablefuturedates=
 				    "false" callback="datePickerCallback" disableddates="disabledDates" title="title" mondayfirst="true">
-				      <button class="button button-block button-positive button-block"> {{ expense.date | date:'dd - MMMM - yyyy' }} </button>
+				      <button class="button button-block button-positive button-block"> {{ expense.date | date:'dd MMM yyyy' }} </button>
 				</ionic-datepicker>
 			</div>
 		</ion-list>

@@ -6,7 +6,7 @@
 .dashboard-category {
 	margin-right: 5px;
 	border-radius: 10px;
-	width: 25%;
+	width: 23%;
 	text-align: center;
 }
 
@@ -101,7 +101,26 @@
 	border: 1px solid #464242;
 }
 
+.item {
+}
+
 .menu-left .item .item-content{
   background-color:#252424 !important;
   color: #B5AEAE;
+}
+
+.date-label {
+	border: none;
+	padding-left: 0
+}
+
+.date-wrapper {
+	padding: 0;
+	margin: 0;
+}
+
+.experiement {
+	width: 100%;
+	text-align: center;
+	border: none;
 }
