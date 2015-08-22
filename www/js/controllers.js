@@ -195,6 +195,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     //UI.setBackButtonSettings(false, '');
     $scope.updateCategory();
     $scope.additionalCategoryTitle = "More Categories";
+    getTotal();
   });
 
   $scope.categories = [];
@@ -298,8 +299,13 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
         alert("Expense added");
       }
     }
+  }
 
-    
+
+  var getTotal = function(){
+    Expense.getTotalCost().then(function(costObject){
+      $scope.totalCost = costObject.totalCost;
+    });
   }
 })
 

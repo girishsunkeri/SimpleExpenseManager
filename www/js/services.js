@@ -177,6 +177,13 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 			});
 	};
 
+	self.getTotalCost = function(){
+		return DB.query("SELECT SUM(cost) as totalCost FROM Expense")
+			.then(function(result){
+				return DB.getById(result);
+			});
+	}
+
 	self.add = function(cost, categoryId, date, details){
 
 		if(!categoryId){
