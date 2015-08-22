@@ -2,18 +2,20 @@
 	<ion-content>
 		<ion-list>
 
-			<ion-item class="item item-input-inset">
+			<ion-item>
+			<div class="item item-input-inset row-item-wrapper">
 				<label class="item item-input-wrapper dashboard-input">
 					<input type="number" ng-model="expense.cost" placeholder="Cost" autofocus>
 				</label>
 				<button class="button button-positive ion-checkmark" ng-click="addExpense()">Add</button>
-			</ion-item>
-			<ion-item class="item item-input-inset">
+			</div>
+			<div class="item item-input-inset row-item-wrapper">
 				<label class="item item-input-wrapper dashboard-input">
 					<input type="text" ng-model="expense.details" placeholder="Details">
 				</label>
-			</ion-item>
-			<ion-item class="item item-input-inset">
+			</div>
+			/<ion-item>
+			<div class="dashboard-category-wrapper item item-input-inset row-item-wrapper">
 				<button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[0], $index)" 
 				ng-class="{ 'button-positive' : activeCategory == firstFourcategories[0] }">
 		         	{{firstFourcategories[0].title}}
@@ -30,19 +32,20 @@
 				ng-class="{ 'button-positive' : activeCategory == firstFourcategories[3] }">
 		         	{{firstFourcategories[3].title}}
 		        </button>
-			</ion-item>
-			<ion-item>
+			</div>
+
+			<div class="item item-input-inset">
 				<button class="button button-stable button-block" ng-click="showCategoriesModal()" ng-if="categories.length != 0">
 		         	{{additionalCategoryTitle}}
 		        </button>
-	    	</ion-item>
-			<ion-item>
+	    	</div>
+
+			<div class="item item-input-inset row-item-wrapper">
 				<ionic-datepicker class="ionic-datepicker" idate="expense.date" disablepreviousdates="true"  disablefuturedates=
 				    "false" callback="datePickerCallback" disableddates="disabledDates" title="title" mondayfirst="true">
 				      <button class="button button-block button-positive button-block"> {{ expense.date | date:'dd - MMMM - yyyy' }} </button>
 				</ionic-datepicker>
-			
-			</ion-item>
+			</div>
 		</ion-list>
 	</ion-content>
 </ion-view>

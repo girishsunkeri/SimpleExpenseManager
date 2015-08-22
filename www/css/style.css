@@ -92,3 +92,16 @@
 .list .item.item-accordion.ng-hide-remove {
   display: block !important;
 }
+
+.menu.menu-left{
+  background-color:#252424;
+}
+
+.menu-left .item{
+	border: 1px solid #464242;
+}
+
+.menu-left .item .item-content{
+  background-color:#252424 !important;
+  color: #B5AEAE;
+}

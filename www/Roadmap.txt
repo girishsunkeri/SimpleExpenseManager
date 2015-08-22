@@ -55,8 +55,10 @@
 	c) Display report by given start and end date - done
 
 6) Allow user to set start date=========13/Aug/15
-	
 
 7) Allow option to add budget===========15/Aug/15
-=======
+
+8) Side menu
+ 	========22/Aug/15
+ 	a) Display Images besides menu item
 
