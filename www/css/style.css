@@ -5,7 +5,6 @@
 
 .dashboard-category {
 	margin-right: 5px;
-	border-radius: 10px;
 	width: 23%;
 	text-align: center;
 }
@@ -93,7 +92,7 @@
   display: block !important;
 }
 
-.menu.menu-left{
+.menu.menu-left {
   background-color:#252424;
 }
 
@@ -101,7 +100,8 @@
 	border: 1px solid #464242;
 }
 
-.item {
+.dashboard .item {
+	border: none;
 }
 
 .menu-left .item .item-content{
@@ -119,8 +119,18 @@
 	margin: 0;
 }
 
-.experiement {
+.category-buttons-container {
 	width: 100%;
 	text-align: center;
 	border: none;
+}
+
+.more-categories {
+	margin: 0 !important;
+}
+
+.dashboard hr {
+	border: 0;
+    height: 0px;
+    border-top: 1px solid #DCDCDC;
 }
