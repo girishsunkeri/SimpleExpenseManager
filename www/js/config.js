@@ -19,6 +19,14 @@ angular.module('sem.config', [])
 				{ name: 'details', type: 'text'},
 				{ name: 'date', type: 'datetime'}
 			]
+		},
+		{
+			name: 'Settings',
+			columns: [
+				{ name: 'id', type: 'integer primary key'},
+				{ name: 'SettingName', type: 'text'},
+				{ name: 'SettingValue', type: 'text'}
+			]
 		}
 	]
 });

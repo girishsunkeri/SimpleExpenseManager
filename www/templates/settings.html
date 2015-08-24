@@ -1,0 +1,13 @@
+<ion-view view-title="Settings">
+	<ion-content>
+		<ion-list class="settings">
+			<ion-item class="item">
+				Offset date
+				<ionic-datepicker class="ionic-datepicker" idate="offsetDate" disablepreviousdates="true"  disablefuturedates=
+				    "false" callback="datePickerCallback" disableddates="disabledDates" title="title" mondayfirst="true">
+				      <button class="button button-positive more-categories"> {{ offsetDate | date:'dd MMM yyyy' }} </button>
+				</ionic-datepicker>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>

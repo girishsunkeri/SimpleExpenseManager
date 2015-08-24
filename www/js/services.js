@@ -288,7 +288,40 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 	return self;
 })
 
-.factory('User', function(){
+.factory('Settings', function(DB){
+	self.get = function(settingName){
+		var parameters = [settingName];
 
+		return DB.query("SELECT * FROM Settings WHERE SettingName = (?)", parameters)
+			.then(function(result){
+				return DB.getById(result);
+			});
+	};
+
+	self.set = function(settingName, settingValue){
+		var parameters = [settingValue, settingName];
+
+		get(settingName).then(function(result){
+			console.log(result);
+			if(result){
+				console.log("result");
+				return DB.query("UPDATE Settings SET settingValue = (?) WHERE SettingName = (?)", parameters);
+			}else{
+				return add(settingName,settingValue);
+			}
+		})
+
+		
+	};
+
+	self.add = function(settingName, settingValue){
+		var parameters = [settingName, settingValue];
+		return DB.query("INSERT INTO Settings (SettingName, settingValue) values (?, ?)", parameters);
+	};
+
+	return self;
+})
+
+.factory('User', function(){
 
 })

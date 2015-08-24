@@ -301,13 +301,32 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     }
   }
 
-
   var getTotal = function(){
     Expense.getTotalCost().then(function(costObject){
       $scope.totalCost = costObject.totalCost;
     });
   }
 })
+
+.controller('SettingsCtrl', function($scope, Settings, $filter) {
+  $scope.offsetDate = new Date();
+  Settings.get('offsetDate').then(function(result){
+    if(result){
+      $scope.offsetDate = new Date(result.SettingValue);
+    }
+  })
+
+  $scope.datePickerCallback = function (val) {
+    //val = $filter('date')(val, 'dd/MM/yyyy');
+    Settings.set('offsetDate', val);
+  };
+})
+
+.controller('ChartCtrl', function($scope) {
+  $scope.offsetDate = new Date();
+})
+
+
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, UI, $state) {
 

@@ -94,6 +94,26 @@ angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services', 
         controller: 'CategoryCtrl'
       }
     }
+  })
+
+  .state('app.chart', {
+    url: '/chart',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/chart.html',
+        controller: 'ChartCtrl'
+      }
+    }
+  })
+
+  .state('app.settings', {
+    url: '/settings',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/settings.html',
+        controller: 'SettingsCtrl'
+      }
+    }
   });
 
   $urlRouterProvider.otherwise('/app/dashboard');
