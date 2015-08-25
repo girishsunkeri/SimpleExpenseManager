@@ -1,5 +1,5 @@
 var db = null;
-angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services', 'ionic-datepicker'])
+angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services', 'ionic-datepicker','chart.js'])
 
 .run(function($ionicPlatform, DB) {
   $ionicPlatform.ready(function() {

@@ -43,10 +43,13 @@
 		     </ion-item>
 		     <hr>
 			<ion-item>
-				<ionic-datepicker class="ionic-datepicker" idate="expense.date" disablepreviousdates="true"  disablefuturedates=
+				<!--<ionic-datepicker class="ionic-datepicker" idate="expense.date" disablepreviousdates="true"  disablefuturedates=
 				    "false" callback="datePickerCallback" disableddates="disabledDates" title="title" mondayfirst="true">
 				      <button class="button button-block button-positive button-block more-categories"> {{ expense.date | date:'dd MMM yyyy' }} </button>
-				</ionic-datepicker>
+				</ionic-datepicker>-->
+				<ionic-datepicker input-obj="expense.date" class="ionic-datepicker">
+					  <button class="button button-block button-positive"> {{expense.date.inputDate | date:'dd MMM yyyy'}}</button>
+					</ionic-datepicker>
 			</ion-item>
 		</ion-list>
 	</ion-content>

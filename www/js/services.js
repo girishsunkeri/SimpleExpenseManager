@@ -148,7 +148,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 })
 
 
-.factory('Expense', function($cordovaSQLite, DB, Category, $filter){
+.factory('Expense', function($cordovaSQLite, DB, Category, $filter, Settings){
 	var self = this;
 
 	self.all = function(){
@@ -177,8 +177,16 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 			});
 	};
 
-	self.getTotalCost = function(){
-		return DB.query("SELECT SUM(cost) as totalCost FROM Expense")
+	self.getTotalCost = function(offsetDate){
+
+		offsetDate = $filter('date')(offsetDate, 'yyyyMMdd'); 
+		var endDate = new Date();
+		endDate = $filter('date')(endDate, 'yyyyMMdd');
+		var parameters = [offsetDate, endDate];
+		console.log("Dates");
+		console.log(offsetDate);
+		console.log(endDate);
+		return DB.query("SELECT SUM(cost) as totalCost, substr(date,7)||substr(date,4,2)||substr(date,1,2) as newDate FROM Expense WHERE newDate between (?) and (?)", parameters)
 			.then(function(result){
 				return DB.getById(result);
 			});
@@ -236,7 +244,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 	var self = this;
 
 	self.getReport = function(){
-		return DB.query("SELECT categoryId, SUM(cost) as totalCost, title FROM Expense INNER JOIN Category ON Expense.categoryId = Category.id Group By categoryId")
+		return DB.query("SELECT categoryId, SUM(cost) as totalCost, title FROM Expense INNER JOIN Category ON Expense.categoryId = Category.id Group By categoryId Order By totalCost Desc")
 			.then(function(result){
 				return DB.getAll(result);
 			});

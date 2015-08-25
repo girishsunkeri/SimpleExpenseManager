@@ -89,22 +89,60 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   };
 })
 
-.controller('ReportCtrl', function($scope, Report, UI, Expense, $timeout) {
+.controller('ReportCtrl', function($scope, Report, UI, Expense, $timeout, Settings) {
   $scope.reportExpenses = [];
 
-  $scope.startDate = new Date();
+  $scope.startDate = {
+    titleLabel: 'Title',  //Optional
+    todayLabel: 'Today',  //Optional
+    closeLabel: 'Close',  //Optional
+    setLabel: 'Set',  //Optional
+    errorMsgLabel : 'Please select time.',    //Optional
+    setButtonType : 'button-assertive',  //Optional
+    inputDate: new Date(),    //Optional
+    mondayFirst: true,    //Optional
+    templateType: 'popup', //Optional
+    modalHeaderColor: 'bar-positive', //Optional
+    modalFooterColor: 'bar-positive', //Optional
+    from: new Date(2012, 8, 2),   //Optional
+    to: new Date(2018, 8, 25),    //Optional
+    callback: function (val) {    //Mandatory
+      startDatePickerCallback(val);
+    }
+  };
 
-  var endDate = new Date();
-  endDate.setFullYear(endDate.getFullYear() + 5); 
-  $scope.endDate = endDate;
+  $scope.endDate = {
+    titleLabel: 'Title',  //Optional
+    todayLabel: 'Today',  //Optional
+    closeLabel: 'Close',  //Optional
+    setLabel: 'Set',  //Optional
+    errorMsgLabel : 'Please select time.',    //Optional
+    setButtonType : 'button-assertive',  //Optional
+    inputDate: new Date(),    //Optional
+    mondayFirst: true,    //Optional
+    templateType: 'popup', //Optional
+    modalHeaderColor: 'bar-positive', //Optional
+    modalFooterColor: 'bar-positive', //Optional
+    from: new Date(2012, 8, 2),   //Optional
+    to: new Date(2018, 8, 25),    //Optional
+    callback: function (val) {    //Mandatory
+      endDatePickerCallback(val);
+    }
+  };
 
   $scope.$on('$ionicView.enter', function(e) {
     //UI.setBackButtonSettings(true, '');
-    $scope.updateReportExpenses();
+    Settings.get('offsetDate').then(function(result){
+      if(result){
+        $scope.startDate.inputDate = new Date(result.SettingValue);
+      }
+
+      $scope.updateReportExpenses();
+    })
   });
 
   $scope.updateReportExpenses = function() { 
-    Report.getReportByDate($scope.startDate, $scope.endDate).then(function(reportExpenses){
+    Report.getReportByDate($scope.startDate.inputDate, $scope.endDate.inputDate).then(function(reportExpenses){
       $scope.reportExpenses = reportExpenses;
     });
   };
@@ -121,7 +159,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     if ($scope.isCategoryShown(category)) {
       $scope.shownCategory = null;
     } else {
-      Expense.allByCategoryId(category.categoryId, $scope.startDate, $scope.endDate).then(function(categoryExpenses){
+      Expense.allByCategoryId(category.categoryId, $scope.startDate.inputDate, $scope.endDate.inputDate).then(function(categoryExpenses){
         $scope.reportExpenses[index].expenses = categoryExpenses;
       })
 
@@ -137,19 +175,19 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     return $scope.shownCategory === category;
   };
 
-  $scope.startDatePickerCallback = function (val) {
-    $scope.startDate = val;
+  var startDatePickerCallback = function (val) {
+    $scope.startDate.inputDate = val;
       $scope.updateReportExpenses();
   };
 
-  $scope.endDatePickerCallback = function (val) {
-    $scope.endDate = val;
+  var endDatePickerCallback = function (val) {
+    $scope.endDate.inputDate = val;
       $scope.updateReportExpenses();
   };
 
 })
 
-.controller('DashboardCtrl', function($scope, UI, Category, Expense, $filter, $cordovaToast, $ionicPopup, $ionicModal) {
+.controller('DashboardCtrl', function($scope, UI, Category, Expense, $filter, $cordovaToast, $ionicPopup, $ionicModal, Settings) {
 
   //UI.setBackButtonSettings(false, '');
 
@@ -221,9 +259,29 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     category: {}
   };
 
-  $scope.expense.date = new Date();
+  $scope.expense.date = {
+    titleLabel: 'Title',  //Optional
+    todayLabel: 'Today',  //Optional
+    closeLabel: 'Close',  //Optional
+    setLabel: 'Set',  //Optional
+    errorMsgLabel : 'Please select time.',    //Optional
+    setButtonType : 'button-assertive',  //Optional
+    inputDate: new Date(),    //Optional
+    mondayFirst: true,    //Optional
+    templateType: 'popup', //Optional
+    modalHeaderColor: 'bar-positive', //Optional
+    modalFooterColor: 'bar-positive', //Optional
+    from: new Date(2012, 8, 2),   //Optional
+    to: new Date(2018, 8, 25),    //Optional
+    callback: function (val) {    //Mandatory
+      datePickerCallback(val);
+    }
+  };
 
-  $scope.datePickerCallback = function (val) {
+  var datePickerCallback = function (val) {
+      if(val != "undefined"){
+        $scope.expense.date.inputDate = new Date(val);
+      }
       if(typeof(val)==='undefined'){      
           console.log('Date not selected');
       }else{
@@ -264,13 +322,13 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
         if(!res) {
           return;
         } else{
-          var newDate = $scope.expense.date
+          var newDate = $scope.expense.date.inputDate
           newDate = $filter('date')(newDate, 'dd/MM/yyyy');
           Expense.add($scope.expense.cost, $scope.expense.category.id, newDate, expenseDetails);
           $scope.expense.cost = '';
           $scope.expense.category = {};
           $scope.expense.details = '';
-          $scope.expense.date = new Date();
+          $scope.expense.date.inputDate = new Date();
 
           $scope.updateCategory();
           
@@ -283,13 +341,13 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
       });
     }else{
       console.log("else part");
-      var newDate2 = $scope.expense.date
+      var newDate2 = $scope.expense.date.inputDate
       newDate2 = $filter('date')(newDate2, 'dd/MM/yyyy');
       Expense.add($scope.expense.cost, $scope.expense.category.id, newDate2, expenseDetails);
       $scope.expense.cost = '';
       $scope.expense.category = {};
       $scope.expense.details = '';
-      $scope.expense.date = new Date();
+      $scope.expense.date.inputDate = new Date();
 
       $scope.updateCategory();
       
@@ -302,28 +360,148 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   }
 
   var getTotal = function(){
-    Expense.getTotalCost().then(function(costObject){
-      $scope.totalCost = costObject.totalCost;
-    });
+    var offsetDate = new Date();
+    Settings.get('offsetDate').then(function(result){
+      offsetDate = new Date(result.SettingValue);
+      Expense.getTotalCost(offsetDate).then(function(costObject){
+        $scope.totalCost = costObject.totalCost;
+      });
+    })
+
   }
 })
 
 .controller('SettingsCtrl', function($scope, Settings, $filter) {
-  $scope.offsetDate = new Date();
+  
+  $scope.offsetDate = {
+      titleLabel: 'Title',  //Optional
+      todayLabel: 'Today',  //Optional
+      closeLabel: 'Close',  //Optional
+      setLabel: 'Set',  //Optional
+      errorMsgLabel : 'Please select time.',    //Optional
+      setButtonType : 'button-assertive',  //Optional
+      inputDate: new Date(),    //Optional
+      mondayFirst: true,    //Optional
+      templateType: 'popup', //Optional
+      modalHeaderColor: 'bar-positive', //Optional
+      modalFooterColor: 'bar-positive', //Optional
+      from: new Date(2012, 8, 2),   //Optional
+      to: new Date(2018, 8, 25),    //Optional
+      callback: function (val) {    //Mandatory
+        datePickerCallback(val);
+      }
+    };
   Settings.get('offsetDate').then(function(result){
     if(result){
-      $scope.offsetDate = new Date(result.SettingValue);
+      $scope.offsetDate.inputDate = new Date(result.SettingValue);
     }
   })
 
-  $scope.datePickerCallback = function (val) {
+  var datePickerCallback = function (val) {
     //val = $filter('date')(val, 'dd/MM/yyyy');
+    $scope.offsetDate.inputDate = new Date(val)
     Settings.set('offsetDate', val);
   };
 })
 
-.controller('ChartCtrl', function($scope) {
-  $scope.offsetDate = new Date();
+.controller('ChartCtrl', function($scope, Report, Settings, $cordovaToast) {
+  $scope.labels = [];
+  $scope.series = [];
+  $scope.data = [
+      []
+  ];
+
+  $scope.startDate = {
+      titleLabel: 'Title',  //Optional
+      todayLabel: 'Today',  //Optional
+      closeLabel: 'Close',  //Optional
+      setLabel: 'Set',  //Optional
+      errorMsgLabel : 'Please select time.',    //Optional
+      setButtonType : 'button-assertive',  //Optional
+      inputDate: new Date(),    //Optional
+      mondayFirst: true,    //Optional
+      templateType: 'popup', //Optional
+      modalHeaderColor: 'bar-positive', //Optional
+      modalFooterColor: 'bar-positive', //Optional
+      from: new Date(2012, 8, 2),   //Optional
+      to: new Date(2018, 8, 25),    //Optional
+      callback: function (val) {    //Mandatory
+        startDatePickerCallback(val);
+      }
+    };
+
+    $scope.endDate = {
+      titleLabel: 'Title',  //Optional
+      todayLabel: 'Today',  //Optional
+      closeLabel: 'Close',  //Optional
+      setLabel: 'Set',  //Optional
+      errorMsgLabel : 'Please select time.',    //Optional
+      setButtonType : 'button-assertive',  //Optional
+      inputDate: new Date(),    //Optional
+      mondayFirst: true,    //Optional
+      templateType: 'popup', //Optional
+      modalHeaderColor: 'bar-positive', //Optional
+      modalFooterColor: 'bar-positive', //Optional
+      from: new Date(2012, 8, 2),   //Optional
+      to: new Date(2018, 8, 25),    //Optional
+      callback: function (val) {    //Mandatory
+        endDatePickerCallback(val);
+      }
+    };
+
+  var startDatePickerCallback  = function (val) {
+      $scope.startDate.inputDate = new Date(val);
+      $scope.updateReportExpenses();
+  };
+
+  var endDatePickerCallback  = function (val) {
+      $scope.endDate.inputDate = new Date(val);
+      $scope.updateReportExpenses();
+  };
+
+  
+  $scope.updateReportExpenses = function(){
+    Report.getReportByDate($scope.startDate.inputDate, $scope.endDate.inputDate).then(function(reportExpenses){
+      $scope.labels = [];
+      $scope.series = [];
+      $scope.data = [
+          []
+      ];
+
+      console.log("reportExpenses " + reportExpenses.length)
+      $scope.reportExpenses = reportExpenses;
+      if($scope.reportExpenses.length > 0){
+        var max = parseFloat($scope.reportExpenses[0].totalCost);
+      }else{
+        if(window.cordova){
+          $cordovaToast.show('Records not found', 'short', 'top');
+        }else{
+          alert("Records not found");
+        }
+      }
+      angular.forEach($scope.reportExpenses, function(value, key){
+          var percentage = (parseFloat(value.totalCost)/max) * 100;
+          $scope.labels.push(value.title);
+          $scope.data[0].push(percentage);
+      });
+    });
+  }
+
+
+
+  $scope.$on('$ionicView.enter', function(e) {
+
+    Settings.get('offsetDate').then(function(result){
+      console.log(result);
+      if(result){
+        $scope.startDate.inputDate = new Date(result.SettingValue);
+      }
+
+      $scope.updateReportExpenses();
+    })
+  });
+
+  
 })
 
 
