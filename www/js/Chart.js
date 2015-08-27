@@ -90,6 +90,7 @@
           labels: '=',
           options: '=',
           series: '=',
+          itemcount: '=',
           colours: '=?',
           getColour: '=?',
           chartType: '=',
@@ -123,6 +124,7 @@
           scope.$watch('series', resetChart, true);
           scope.$watch('labels', resetChart, true);
           scope.$watch('options', resetChart, true);
+          scope.$watch('itemcount', resetChart, true);
           scope.$watch('colours', resetChart, true);
 
           scope.$watch('chartType', function (newVal, oldVal) {
@@ -167,7 +169,8 @@
             //console.log(options)
             if(type == 'Bar'){ 
               console.log("bar");
-              ctx.canvas.height = 400;
+              console.log(scope.itemcount);
+              ctx.canvas.height = parseInt(scope.itemcount) * 50;
               chart = new Chart(ctx).HorizontalBar(data, options);
             }else{
               chart = new Chart(ctx)[type](data, options);

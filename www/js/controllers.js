@@ -410,6 +410,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   $scope.data = [
       []
   ];
+  $scope.itemcount = 0;
 
   $scope.startDate = {
       titleLabel: 'Title',  //Optional
@@ -468,9 +469,14 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
           []
       ];
 
+      $scope.itemcount = 0;
+
       console.log("reportExpenses " + reportExpenses.length)
       $scope.reportExpenses = reportExpenses;
       if($scope.reportExpenses.length > 0){
+        $scope.itemcount = $scope.reportExpenses.length;
+        console.log("$scope.itemcount");
+        console.log($scope.itemcount);
         var max = parseFloat($scope.reportExpenses[0].totalCost);
       }else{
         if(window.cordova){
