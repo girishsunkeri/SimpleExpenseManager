@@ -190,6 +190,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
 .controller('DashboardCtrl', function($scope, UI, Category, Expense, $filter, $cordovaToast, $ionicPopup, $ionicModal, Settings) {
 
   //UI.setBackButtonSettings(false, '');
+  $scope.noWarningPopup = { checked: true}
 
   $scope.showCategoriesModal = function() {
       $scope.openCategoriesModal();
@@ -233,6 +234,13 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     //UI.setBackButtonSettings(false, '');
     $scope.updateCategory();
     $scope.additionalCategoryTitle = "More Categories";
+    Settings.get('warningPopup').then(function(result){
+      if(result){
+        console.log("got bones "+result.SettingValue);
+        $scope.noWarningPopup = { checked: result.SettingValue == 'true' ? true : false };
+        console.log("got "+ $scope.noWarningPopup.checked);
+      }
+    })
     getTotal();
   });
 
@@ -312,7 +320,9 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
       expenseDetails = '----';
     }
 
-    if($scope.expense.category.id == undefined || $scope.expense.category.id == 0){
+    console.log("$scope.noWarningPopup.checked: "+$scope.noWarningPopup.checked);
+
+    if(($scope.expense.category.id == undefined || $scope.expense.category.id == 0) && $scope.noWarningPopup.checked == false){
       console.log("if part");
       var confirmPopup = $ionicPopup.confirm({
         title: 'Category Not Selected',
@@ -373,6 +383,8 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
 
 .controller('SettingsCtrl', function($scope, Settings, $filter) {
   
+  $scope.noWarningPopup = { checked: true};
+
   $scope.offsetDate = {
       titleLabel: 'Title',  //Optional
       todayLabel: 'Today',  //Optional
@@ -396,6 +408,16 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
       $scope.offsetDate.inputDate = new Date(result.SettingValue);
     }
   })
+
+  Settings.get('warningPopup').then(function(result){
+    if(result){
+      $scope.noWarningPopup = { checked: result.SettingValue == "true" ? true : false };
+    }
+  })
+
+  $scope.setWarningPopup = function(){
+    Settings.set('warningPopup', $scope.noWarningPopup.checked);
+  }
 
   var datePickerCallback = function (val) {
     //val = $filter('date')(val, 'dd/MM/yyyy');

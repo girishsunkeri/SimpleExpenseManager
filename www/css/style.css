@@ -85,6 +85,7 @@
   padding-top: 0;
   padding-bottom: 0;
   transition: 0.2s all linear;
+  background-color: #D0E6C7;
 }
 .list .item.item-accordion.ng-hide {
   line-height: 0px;
@@ -139,5 +140,21 @@
 
 .settings .ionic-datepicker {
 	float: right;
+}
+
+.no-padding-top {
+	padding-top: 0;
+}
+
+.chart-wrapper > .chart-container {
+	height: 0;
+}
+
+.settings .label {
+	float: left;
+}
+
+.no-border {
+	border: none;
 }
 

@@ -3,7 +3,7 @@
 		<ion-list class="dashboard">
 			<ion-item>
 				<div class="inline-block col-1-2 text-align-left text-bold">Total</div>
-				<div class="inline-block col-1-2 text-align-right text-bold">{{totalCost}}</div>
+				<div class="inline-block col-1-2 text-align-right text-bold">{{totalCost | currency}}</div>
 			</ion-item>
 			<hr>
 			<ion-item class="item item-input-inset">
@@ -36,20 +36,20 @@
 		         	{{firstFourcategories[3].title}}
 		        </button>
 		    </ion-item>
-			<ion-item>
+			<ion-item class="no-padding-top">
 				<button class="button button-stable button-block more-categories" ng-click="showCategoriesModal()" ng-if="categories.length != 0">
 		         	{{additionalCategoryTitle}}
 		        </button>
 		     </ion-item>
 		     <hr>
-			<ion-item>
+			<ion-item class="no-padding-top">
 				<!--<ionic-datepicker class="ionic-datepicker" idate="expense.date" disablepreviousdates="true"  disablefuturedates=
 				    "false" callback="datePickerCallback" disableddates="disabledDates" title="title" mondayfirst="true">
 				      <button class="button button-block button-positive button-block more-categories"> {{ expense.date | date:'dd MMM yyyy' }} </button>
 				</ionic-datepicker>-->
 				<ionic-datepicker input-obj="expense.date" class="ionic-datepicker">
-					  <button class="button button-block button-positive"> {{expense.date.inputDate | date:'dd MMM yyyy'}}</button>
-					</ionic-datepicker>
+				  <button class="button button-block button-positive"> {{expense.date.inputDate | date:'dd MMM yyyy'}}</button>
+				</ionic-datepicker>
 			</ion-item>
 		</ion-list>
 	</ion-content>

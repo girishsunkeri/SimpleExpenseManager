@@ -1,16 +1,11 @@
 <ion-view view-title="Report">
 	<ion-content>
-		<ion-list>
+		<ion-list class="report">
 			<ion-item class="date-wrapper">
 				<div class="col-1-2 inline-block text-align-center">
 					<label class="item item-input inline-block date-label">
 						<span class="input-label">From</span>
 					</label>
-					<!--<ionic-datepicker class="ionic-datepicker" idate="startDate" disablepreviousdates="true"  	
-					        disablefuturedates=
-						    "false" callback="startDatePickerCallback" disableddates="disabledDates" title="title" mondayfirst="true">
-						<button class="button button-positive"> {{ startDate | date:'dd MMM yyyy' }} </button>
-					</ionic-datepicker>-->
 					<ionic-datepicker input-obj="startDate" class="ionic-datepicker">
 					  <button class="button button-positive"> {{startDate.inputDate | date:'dd MMM yyyy'}}</button>
 					</ionic-datepicker>
@@ -19,11 +14,6 @@
 					<label class="item item-input inline-block date-label">
 						<span class="input-label">To</span>
 					</label>
-					<!--<ionic-datepicker class="ionic-datepicker" idate="endDate" disablepreviousdates="true"  
-						disablefuturedates=
-					    "false" callback="endDatePickerCallback" disableddates="disabledDates" title="title" mondayfirst="true">
-					    <button class="button button-positive"> {{ endDate | date:'dd MMM yyyy' }} </button>
-					</ionic-datepicker>-->
 					<ionic-datepicker input-obj="endDate" class="ionic-datepicker">
 					  <button class="button button-positive"> {{endDate.inputDate | date:'dd MMM yyyy'}}</button>
 					</ionic-datepicker>
@@ -32,7 +22,7 @@
 
 			<ion-item>
 				<div class="inline-block col-1-2 text-align-left text-bold">Total</div>
-				<div class="inline-block col-1-2 text-align-right text-bold">{{getTotal()}}</div>
+				<div class="inline-block col-1-2 text-align-right text-bold">{{getTotal() | currency}}</div>
 			</ion-item>
 			<div ng-repeat="category in reportExpenses">
 				<ion-item ng-click="toggleGroup(category, $index)" ng-class="{active: isCategoryShown(category)}">
@@ -42,7 +32,7 @@
 						{{category.title}}
 					</div>
 					<div class="inline-block col-1-2 text-align-right">
-					 	{{category.totalCost}}
+					 	{{category.totalCost | currency}}
 					</div>
 				</ion-item>
 				<ion-item class="item-accordion"
@@ -50,7 +40,7 @@
 	                    ng-show="isCategoryShown(category)">
 	            	<div class="expense-content col-1-3 text-align-left">{{expense.details}}</div>
 					<div class="expense-content col-1-3 text-align-center">{{expense.date}}</div>
-					<div class="expense-content col-1-3 text-align-right">{{expense.cost}}</div>
+					<div class="expense-content col-1-3 text-align-right">{{expense.cost | currency}}</div>
 	          </ion-item>
 			</div>
 		</ion-list>
