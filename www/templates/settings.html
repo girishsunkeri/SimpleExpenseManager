@@ -16,6 +16,12 @@
           			No category warning
         		</ion-toggle>
 			</ion-item>
+			<ion-item class="item">
+				<label class="item item-input item-clear no-border label">
+					<span class="input-label">Budget</span>
+				</label>
+				<input type="text" ng-model="totalBudget" ng-change="setBudget(totalBudget)" class="item item-input-wrapper ionic-datepicker" placeholder="budget" >
+			</ion-item>
 		</ion-list>
 	</ion-content>
 </ion-view>

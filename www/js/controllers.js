@@ -191,6 +191,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
 
   //UI.setBackButtonSettings(false, '');
   $scope.noWarningPopup = { checked: true}
+  $scope.budget = 0;
 
   $scope.showCategoriesModal = function() {
       $scope.openCategoriesModal();
@@ -241,6 +242,12 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
         console.log("got "+ $scope.noWarningPopup.checked);
       }
     })
+
+    Settings.get('budget').then(function(result){
+    if(result){
+      $scope.budget = parseFloat(result.SettingValue);
+    }
+  })
     getTotal();
   });
 
@@ -372,10 +379,13 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   var getTotal = function(){
     var offsetDate = new Date();
     Settings.get('offsetDate').then(function(result){
-      offsetDate = new Date(result.SettingValue);
+      if(result){
+        offsetDate = new Date(result.SettingValue);
+      }
       Expense.getTotalCost(offsetDate).then(function(costObject){
         $scope.totalCost = costObject.totalCost;
       });
+
     })
 
   }
@@ -384,6 +394,8 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
 .controller('SettingsCtrl', function($scope, Settings, $filter) {
   
   $scope.noWarningPopup = { checked: true};
+
+  $scope.totalBudget = 2;
 
   $scope.offsetDate = {
       titleLabel: 'Title',  //Optional
@@ -415,8 +427,19 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     }
   })
 
+  Settings.get('budget').then(function(result){
+    if(result){
+      $scope.totalBudget = parseFloat(result.SettingValue);
+    }
+  })
+
   $scope.setWarningPopup = function(){
     Settings.set('warningPopup', $scope.noWarningPopup.checked);
+  }
+
+  $scope.setBudget = function(totalBudget){
+    if(totalBudget == "") totalBudget = 0;
+    Settings.set('budget', totalBudget);
   }
 
   var datePickerCallback = function (val) {

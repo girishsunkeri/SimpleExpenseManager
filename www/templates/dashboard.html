@@ -3,7 +3,7 @@
 		<ion-list class="dashboard">
 			<ion-item>
 				<div class="inline-block col-1-2 text-align-left text-bold">Total</div>
-				<div class="inline-block col-1-2 text-align-right text-bold">{{totalCost | currency}}</div>
+				<div class="inline-block col-1-2 text-align-right text-bold">{{totalCost | currency}}<span ng-if="budget > 0">/{{budget | currency}}</span></div>
 			</ion-item>
 			<hr>
 			<ion-item class="item item-input-inset">
