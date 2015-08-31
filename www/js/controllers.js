@@ -89,52 +89,18 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   };
 })
 
-.controller('ReportCtrl', function($scope, Report, UI, Expense, $timeout, Settings) {
+.controller('ReportCtrl', function($scope, Report, UI, Expense, $timeout, Settings, $cordovaDatePicker) {
   $scope.reportExpenses = [];
 
-  $scope.startDate = {
-    titleLabel: 'Title',  //Optional
-    todayLabel: 'Today',  //Optional
-    closeLabel: 'Close',  //Optional
-    setLabel: 'Set',  //Optional
-    errorMsgLabel : 'Please select time.',    //Optional
-    setButtonType : 'button-assertive',  //Optional
-    inputDate: new Date(),    //Optional
-    mondayFirst: true,    //Optional
-    templateType: 'popup', //Optional
-    modalHeaderColor: 'bar-positive', //Optional
-    modalFooterColor: 'bar-positive', //Optional
-    from: new Date(2012, 8, 2),   //Optional
-    to: new Date(2018, 8, 25),    //Optional
-    callback: function (val) {    //Mandatory
-      startDatePickerCallback(val);
-    }
-  };
+  $scope.startDate = new Date();
 
-  $scope.endDate = {
-    titleLabel: 'Title',  //Optional
-    todayLabel: 'Today',  //Optional
-    closeLabel: 'Close',  //Optional
-    setLabel: 'Set',  //Optional
-    errorMsgLabel : 'Please select time.',    //Optional
-    setButtonType : 'button-assertive',  //Optional
-    inputDate: new Date(),    //Optional
-    mondayFirst: true,    //Optional
-    templateType: 'popup', //Optional
-    modalHeaderColor: 'bar-positive', //Optional
-    modalFooterColor: 'bar-positive', //Optional
-    from: new Date(2012, 8, 2),   //Optional
-    to: new Date(2018, 8, 25),    //Optional
-    callback: function (val) {    //Mandatory
-      endDatePickerCallback(val);
-    }
-  };
+  $scope.endDate = new Date();
 
   $scope.$on('$ionicView.enter', function(e) {
     //UI.setBackButtonSettings(true, '');
     Settings.get('offsetDate').then(function(result){
       if(result){
-        $scope.startDate.inputDate = new Date(result.SettingValue);
+        $scope.startDate = new Date(result.SettingValue);
       }
 
       $scope.updateReportExpenses();
@@ -142,7 +108,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   });
 
   $scope.updateReportExpenses = function() { 
-    Report.getReportByDate($scope.startDate.inputDate, $scope.endDate.inputDate).then(function(reportExpenses){
+    Report.getReportByDate($scope.startDate, $scope.endDate).then(function(reportExpenses){
       $scope.reportExpenses = reportExpenses;
     });
   };
@@ -159,7 +125,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     if ($scope.isCategoryShown(category)) {
       $scope.shownCategory = null;
     } else {
-      Expense.allByCategoryId(category.categoryId, $scope.startDate.inputDate, $scope.endDate.inputDate).then(function(categoryExpenses){
+      Expense.allByCategoryId(category.categoryId, $scope.startDate, $scope.endDate).then(function(categoryExpenses){
         $scope.reportExpenses[index].expenses = categoryExpenses;
       })
 
@@ -175,23 +141,50 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     return $scope.shownCategory === category;
   };
 
-  var startDatePickerCallback = function (val) {
-    $scope.startDate.inputDate = val;
-      $scope.updateReportExpenses();
+  $scope.startDatePicker = function () {
+    $cordovaDatePicker.show({
+          date: new Date(),
+          mode: 'date'
+      }).then(function (date) {
+          $scope.startDate = new Date(date);
+          $scope.updateReportExpenses();
+      }); 
   };
 
-  var endDatePickerCallback = function (val) {
-    $scope.endDate.inputDate = val;
-      $scope.updateReportExpenses();
+  $scope.endDatePicker = function () {
+      $cordovaDatePicker.show({
+          date: new Date(),
+          mode: 'date'
+      }).then(function (date) {
+          $scope.endDate = new Date(date);
+          $scope.updateReportExpenses();
+      }); 
   };
 
 })
 
-.controller('DashboardCtrl', function($scope, UI, Category, Expense, $filter, $cordovaToast, $ionicPopup, $ionicModal, Settings) {
+.controller('DashboardCtrl', function($scope, UI, Category, Expense, $filter, $cordovaToast, $ionicPopup, $ionicModal, Settings, $cordovaDatePicker) {
 
   //UI.setBackButtonSettings(false, '');
+  $scope.expense = {
+      cost: '',
+      details: '',
+      date: '',
+      category: {}
+    };
+
   $scope.noWarningPopup = { checked: true}
   $scope.budget = 0;
+  $scope.expense.date = new Date();
+
+  $scope.showDatePicker = function () {
+      $cordovaDatePicker.show({
+          date: new Date(),
+          mode: 'date'
+      }).then(function (date) {
+          $scope.expense.date = new Date(date);
+      });
+  };
 
   $scope.showCategoriesModal = function() {
       $scope.openCategoriesModal();
@@ -267,35 +260,11 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     });
   };
 
-  $scope.expense = {
-    cost: '',
-    details: '',
-    date: '',
-    category: {}
-  };
-
-  $scope.expense.date = {
-    titleLabel: 'Title',  //Optional
-    todayLabel: 'Today',  //Optional
-    closeLabel: 'Close',  //Optional
-    setLabel: 'Set',  //Optional
-    errorMsgLabel : 'Please select time.',    //Optional
-    setButtonType : 'button-assertive',  //Optional
-    inputDate: new Date(),    //Optional
-    mondayFirst: true,    //Optional
-    templateType: 'popup', //Optional
-    modalHeaderColor: 'bar-positive', //Optional
-    modalFooterColor: 'bar-positive', //Optional
-    from: new Date(2012, 8, 2),   //Optional
-    to: new Date(2018, 8, 25),    //Optional
-    callback: function (val) {    //Mandatory
-      datePickerCallback(val);
-    }
-  };
+  $scope.expense.date = new Date();
 
   var datePickerCallback = function (val) {
       if(val != "undefined"){
-        $scope.expense.date.inputDate = new Date(val);
+        $scope.expense.date = new Date(val);
       }
       if(typeof(val)==='undefined'){      
           console.log('Date not selected');
@@ -339,13 +308,13 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
         if(!res) {
           return;
         } else{
-          var newDate = $scope.expense.date.inputDate
+          var newDate = $scope.expense.date
           newDate = $filter('date')(newDate, 'dd/MM/yyyy');
           Expense.add($scope.expense.cost, $scope.expense.category.id, newDate, expenseDetails);
           $scope.expense.cost = '';
           $scope.expense.category = {};
           $scope.expense.details = '';
-          $scope.expense.date.inputDate = new Date();
+          $scope.expense.date = new Date();
 
           $scope.updateCategory();
           
@@ -358,13 +327,13 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
       });
     }else{
       console.log("else part");
-      var newDate2 = $scope.expense.date.inputDate
+      var newDate2 = $scope.expense.date
       newDate2 = $filter('date')(newDate2, 'dd/MM/yyyy');
       Expense.add($scope.expense.cost, $scope.expense.category.id, newDate2, expenseDetails);
       $scope.expense.cost = '';
       $scope.expense.category = {};
       $scope.expense.details = '';
-      $scope.expense.date.inputDate = new Date();
+      $scope.expense.date = new Date();
 
       $scope.updateCategory();
       
@@ -391,33 +360,16 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   }
 })
 
-.controller('SettingsCtrl', function($scope, Settings, $filter) {
+.controller('SettingsCtrl', function($scope, Settings, $filter, $cordovaDatePicker) {
   
   $scope.noWarningPopup = { checked: true};
 
   $scope.totalBudget = 2;
 
-  $scope.offsetDate = {
-      titleLabel: 'Title',  //Optional
-      todayLabel: 'Today',  //Optional
-      closeLabel: 'Close',  //Optional
-      setLabel: 'Set',  //Optional
-      errorMsgLabel : 'Please select time.',    //Optional
-      setButtonType : 'button-assertive',  //Optional
-      inputDate: new Date(),    //Optional
-      mondayFirst: true,    //Optional
-      templateType: 'popup', //Optional
-      modalHeaderColor: 'bar-positive', //Optional
-      modalFooterColor: 'bar-positive', //Optional
-      from: new Date(2012, 8, 2),   //Optional
-      to: new Date(2018, 8, 25),    //Optional
-      callback: function (val) {    //Mandatory
-        datePickerCallback(val);
-      }
-    };
+  $scope.offsetDate = new Date();
   Settings.get('offsetDate').then(function(result){
     if(result){
-      $scope.offsetDate.inputDate = new Date(result.SettingValue);
+      $scope.offsetDate = new Date(result.SettingValue);
     }
   })
 
@@ -442,14 +394,18 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     Settings.set('budget', totalBudget);
   }
 
-  var datePickerCallback = function (val) {
-    //val = $filter('date')(val, 'dd/MM/yyyy');
-    $scope.offsetDate.inputDate = new Date(val)
-    Settings.set('offsetDate', val);
+  $scope.datePicker = function (val) {
+    $cordovaDatePicker.show({
+          date: new Date(),
+          mode: 'date'
+      }).then(function (date) {
+          $scope.offsetDate = new Date(date);
+          Settings.set('offsetDate', $scope.offsetDate);
+      }); 
   };
 })
 
-.controller('ChartCtrl', function($scope, Report, Settings, $cordovaToast) {
+.controller('ChartCtrl', function($scope, Report, Settings, $cordovaToast, $cordovaDatePicker) {
   $scope.labels = [];
   $scope.series = [];
   $scope.data = [
@@ -457,57 +413,33 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   ];
   $scope.itemcount = 0;
 
-  $scope.startDate = {
-      titleLabel: 'Title',  //Optional
-      todayLabel: 'Today',  //Optional
-      closeLabel: 'Close',  //Optional
-      setLabel: 'Set',  //Optional
-      errorMsgLabel : 'Please select time.',    //Optional
-      setButtonType : 'button-assertive',  //Optional
-      inputDate: new Date(),    //Optional
-      mondayFirst: true,    //Optional
-      templateType: 'popup', //Optional
-      modalHeaderColor: 'bar-positive', //Optional
-      modalFooterColor: 'bar-positive', //Optional
-      from: new Date(2012, 8, 2),   //Optional
-      to: new Date(2018, 8, 25),    //Optional
-      callback: function (val) {    //Mandatory
-        startDatePickerCallback(val);
-      }
-    };
+  $scope.startDate = new Date();
 
-    $scope.endDate = {
-      titleLabel: 'Title',  //Optional
-      todayLabel: 'Today',  //Optional
-      closeLabel: 'Close',  //Optional
-      setLabel: 'Set',  //Optional
-      errorMsgLabel : 'Please select time.',    //Optional
-      setButtonType : 'button-assertive',  //Optional
-      inputDate: new Date(),    //Optional
-      mondayFirst: true,    //Optional
-      templateType: 'popup', //Optional
-      modalHeaderColor: 'bar-positive', //Optional
-      modalFooterColor: 'bar-positive', //Optional
-      from: new Date(2012, 8, 2),   //Optional
-      to: new Date(2018, 8, 25),    //Optional
-      callback: function (val) {    //Mandatory
-        endDatePickerCallback(val);
-      }
-    };
+  $scope.endDate = new Date();
 
-  var startDatePickerCallback  = function (val) {
-      $scope.startDate.inputDate = new Date(val);
-      $scope.updateReportExpenses();
+  $scope.startDatePicker  = function () {
+      $cordovaDatePicker.show({
+          date: new Date(),
+          mode: 'date'
+      }).then(function (date) {
+          $scope.startDate = new Date(date);
+          $scope.updateReportExpenses();
+      }); 
   };
 
-  var endDatePickerCallback  = function (val) {
-      $scope.endDate.inputDate = new Date(val);
-      $scope.updateReportExpenses();
+  $scope.endDatePicker  = function (val) {
+      $cordovaDatePicker.show({
+          date: new Date(),
+          mode: 'date'
+      }).then(function (date) {
+          $scope.endDate = new Date(date);
+          $scope.updateReportExpenses();
+      }); 
   };
 
   
   $scope.updateReportExpenses = function(){
-    Report.getReportByDate($scope.startDate.inputDate, $scope.endDate.inputDate).then(function(reportExpenses){
+    Report.getReportByDate($scope.startDate, $scope.endDate).then(function(reportExpenses){
       $scope.labels = [];
       $scope.series = [];
       $scope.data = [
@@ -545,7 +477,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
     Settings.get('offsetDate').then(function(result){
       console.log(result);
       if(result){
-        $scope.startDate.inputDate = new Date(result.SettingValue);
+        $scope.startDate = new Date(result.SettingValue);
       }
 
       $scope.updateReportExpenses();

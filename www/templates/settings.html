@@ -5,9 +5,9 @@
 				<label class="item item-input item-clear no-border label">
 					<span class="input-label">Offset date</span>
 				</label>
-				<ionic-datepicker input-obj="offsetDate" class="ionic-datepicker">
-					  <button class="button button-positive"> {{offsetDate.inputDate | date:'dd MMM yyyy'}}</button>
-					</ionic-datepicker>
+				<div class="ionic-datepicker">
+					<button class="button button-positive" ng-click="datePicker()"> {{offsetDate | date:'dd MMM yyyy'}}</button>
+				</div>
 			</ion-item>
 			<ion-item class="item">
 				<ion-toggle class="no-border"
