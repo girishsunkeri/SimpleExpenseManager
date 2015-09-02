@@ -135,7 +135,8 @@
 .dashboard hr {
 	border: 0;
     height: 0px;
-    border-top: 1px solid #DCDCDC;
+    border-top: 1px solid #DEDCDC;
+    padding: 0;
 }
 
 .settings .ionic-datepicker {
@@ -156,5 +157,13 @@
 
 .no-border {
 	border: none;
+}
+
+.category-label {
+	border-top: 1px solid #B7B7B7 !important;
+	border-bottom: 1px solid #B7B7B7 !important;
+	margin: 0;
+	padding-top: 3px;
+	padding-bottom: 3px;
 }
 

@@ -17,33 +17,36 @@
 					<input type="text" ng-model="expense.details" placeholder="Details">
 				</label>
 			</ion-item>
-			<hr>
+			<div class="item  item-stable text-align-center category-label">
+				<span>Select Category</span>
+			</div>
 			<ion-item class="category-buttons-container">
+			    
 				<button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[0], $index)" 
-				ng-class="{ 'button-positive' : activeCategory == firstFourcategories[0] }">
+				ng-class="activeCategory === firstFourcategories[0] ? 'button-positive' :  'button-calm'">
 		         	{{firstFourcategories[0].title}}
 		        </button><!--
 		        --><button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[1], $index)" 
-				ng-class="{ 'button-positive' : activeCategory == firstFourcategories[1] }">
+				ng-class="activeCategory === firstFourcategories[1] ? 'button-positive' :  'button-calm'">
 		         	{{firstFourcategories[1].title}}
 		        </button><!--
 		        --><button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[2], $index)" 
-				ng-class="{ 'button-positive' : activeCategory == firstFourcategories[2] }">
+				ng-class="activeCategory === firstFourcategories[2] ? 'button-positive' :  'button-calm'">
 		         	{{firstFourcategories[2].title}}
 		        </button><!--
 		        --><button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[3], $index)" 
-				ng-class="{ 'button-positive' : activeCategory == firstFourcategories[3] }">
+				ng-class="activeCategory === firstFourcategories[3] ? 'button-positive' :  'button-calm'">
 		         	{{firstFourcategories[3].title}}
 		        </button>
 		    </ion-item>
 			<ion-item class="no-padding-top">
-				<button class="button button-stable button-block more-categories" ng-click="showCategoriesModal()" ng-if="categories.length != 0">
+				<button class="button button-calm button-block more-categories" ng-click="showCategoriesModal()" ng-if="categories.length != 0">
 		         	{{additionalCategoryTitle}}
 		        </button>
 		     </ion-item>
 		     <hr>
 			<ion-item class="no-padding-top">
-				<button class="button button-block button-positive" ng-click="showDatePicker()">{{expense.date | date:'dd MMM yyyy'}}</button>
+				<button class="button button-block button-dark" ng-click="showDatePicker()">{{expense.date | date:'dd MMM yyyy'}}</button>
 			</ion-item>
 		</ion-list>
 	</ion-content>

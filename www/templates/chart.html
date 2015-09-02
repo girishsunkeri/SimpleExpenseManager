@@ -7,7 +7,7 @@
 						<span class="input-label">From</span>
 					</label>
 					<div class="ionic-datepicker">
-					  <button class="button button-positive" ng-click="startDatePicker()">{{startDate | date:'dd MMM yyyy'}}</button>
+					  <button class="button button-dark" ng-click="startDatePicker()">{{startDate | date:'dd MMM yyyy'}}</button>
 					</div>
 				</div><!--
 				--><div class="col-1-2 inline-block text-align-center">
@@ -15,7 +15,7 @@
 						<span class="input-label">To</span>
 					</label>
 					<div class="ionic-datepicker">
-					  <button class="button button-positive" ng-click="endDatePicker()"> {{endDate | date:'dd MMM yyyy'}}</button>
+					  <button class="button button-dark" ng-click="endDatePicker()"> {{endDate | date:'dd MMM yyyy'}}</button>
 					</div>
 				</div>
 			</ion-item>
@@ -23,7 +23,7 @@
 				<!-- ======= Added to resolve repeating graph issue on older mobiles ===== -->
 				<canvas id="line" class="chart chart-line" height="0" labels="labels" legend="true" series="series" options="{showTooltips: false}"></canvas>
 		        <div class="card">
-		            <div class="item item-divider">
+		            <div class="item item-divider item-calm">
 		                Expense Chart
 		            </div>
 		            <div class="item item-text-wrap">
