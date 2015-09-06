@@ -42,6 +42,19 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 				var query = 'CREATE TABLE IF NOT EXISTS ' + table.name + ' (' + columns.join(',') + ')';
 				self.query(query);
 			});
+
+
+
+			var query2 = "INSERT INTO Category(title) SELECT 'Travel' WHERE NOT EXISTS(SELECT 1 FROM Category WHERE title = 'Travel')";
+			self.query(query2);
+			query2 = "INSERT INTO Category(title) SELECT 'Food' WHERE NOT EXISTS(SELECT 1 FROM Category WHERE title = 'Food')";
+			self.query(query2);
+			query2 = "INSERT INTO Category(title) SELECT 'Mobile' WHERE NOT EXISTS(SELECT 1 FROM Category WHERE title = 'Mobile')";
+			self.query(query2);
+			query2 = "INSERT INTO Category(title) SELECT 'Movie' WHERE NOT EXISTS(SELECT 1 FROM Category WHERE title = 'Movie')";
+			self.query(query2);
+
+
 		}catch(e){
 			alert(e);
 		}

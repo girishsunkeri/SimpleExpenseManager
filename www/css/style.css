@@ -23,7 +23,7 @@
 .dashboard-input {
 	padding-top: 8px;
 	padding-bottom: 8px;
-	border: 1px solid #C1B0B0  !important;
+	border: 1px solid #E5E4D7 !important;
 	background-color: #fff;
 }
 
@@ -139,6 +139,10 @@
     padding: 0;
 }
 
+.dashboard .button-calm {
+	color: #000;
+}
+
 .settings .ionic-datepicker {
 	float: right;
 }
@@ -160,10 +164,31 @@
 }
 
 .category-label {
+	margin-bottom: 1px;
 	border-top: 1px solid #B7B7B7 !important;
 	border-bottom: 1px solid #B7B7B7 !important;
-	margin: 0;
 	padding-top: 3px;
 	padding-bottom: 3px;
+}
+
+.slider {
+  height: 100%;
+}
+
+.slider-slide {
+  padding-top: 80px;
+  color: #000;
+  background-color: #fff;
+  text-align: center;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-weight: 300;
+}
+
+.intro ion-slide div {
+	height: 40%;
+}
+
+.intro div img {
+	width: 55%;
 }
 

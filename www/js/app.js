@@ -25,7 +25,18 @@ angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services','
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
+    controller: 'AppCtrl',
+    onEnter: function($state, Settings){
+      Settings.get('noIntro').then(function(result){
+        if(result){
+          if(result.SettingValue != 'true'){
+            $state.go('app.intro');
+          }
+        }else{
+          $state.go('app.intro');
+        }
+      })
+    }
   })
 
   .state('app.search', {
@@ -112,6 +123,17 @@ angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services','
       'menuContent': {
         templateUrl: 'templates/settings.html',
         controller: 'SettingsCtrl'
+      }
+    }
+  })
+
+  .state('app.intro', {
+    url: '/intro',
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/intro.html',
+        controller: 'IntroCtrl'
       }
     }
   });

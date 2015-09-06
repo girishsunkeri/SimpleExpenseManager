@@ -163,7 +163,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
 
 })
 
-.controller('DashboardCtrl', function($scope, UI, Category, Expense, $filter, $cordovaToast, $ionicPopup, $ionicModal, Settings, $cordovaDatePicker) {
+.controller('DashboardCtrl', function($scope, UI, $state, Category, Expense, $filter, $cordovaToast, $ionicPopup, $ionicModal, Settings, $cordovaDatePicker) {
 
   //UI.setBackButtonSettings(false, '');
   $scope.expense = {
@@ -364,7 +364,7 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   
   $scope.noWarningPopup = { checked: true};
 
-  $scope.totalBudget = 2;
+  $scope.totalBudget = 0;
 
   $scope.offsetDate = new Date();
   Settings.get('offsetDate').then(function(result){
@@ -518,6 +518,29 @@ angular.module('sem.controllers', ['sem.services', 'ngCordova'])
   $scope.navigateToPreviousScreen = function(){
     $state.go('app.dashboard');
   };
+})
+
+.controller('IntroCtrl', function($scope, $state, $ionicSlideBoxDelegate, Settings){
+
+  $scope.startApp = function(){
+    console.log("skipped");
+    Settings.set('noIntro', true);
+    $state.go('app.dashboard');
+  };
+
+  $scope.next = function(){
+    $ionicSlideBoxDelegate.next();
+  };
+
+  $scope.previous = function(){
+    $ionicSlideBoxDelegate.previous();
+  };
+
+  $scope.slideChanged = function(index){
+    console.log("slideChanged");
+    $scope.slideIndex = index;
+  }
+
 })
 
 

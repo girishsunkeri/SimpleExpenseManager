@@ -1,0 +1,52 @@
+<ion-view hide-back-button="true" view-title="intro" class="intro">
+	<ion-nav-buttons side="left">
+		<button class="button button-positive button-clear no-animation"
+			ng-click="startApp()" ng-show="!slideIndex">
+			Skip
+		</button>
+		<button class="button button-positive button-clear no-animation"
+			ng-click="previous()" ng-show="slideIndex > 0">
+			Previous
+		</button>
+	</ion-nav-buttons>
+	<ion-nav-buttons side="right">
+		<button class="button button-positive button-clear no-animation"
+			ng-click="next()" ng-show="slideIndex != 3">
+			Next
+		</button>
+		<button class="button button-positive button-clear no-animation"
+                  ng-click="startApp()" ng-show="slideIndex == 3">
+            Start
+          </button>
+	</ion-nav-buttons>
+	<ion-slide-box on-slide-changed="slideChanged(index)">
+		<ion-slide class="slide">
+			<h3>Categories</h3>
+			<div id="logo">
+              <img src="img/categories.png">
+            </div>
+			<p>Create your own categories</p>
+		</ion-slide>
+		<ion-slide>
+			<h3>Dasdhboard</h3>
+			<div id="logo">
+              <img src="img/dashboard.png">
+            </div>
+			<p>Quickly add expense</p>
+		</ion-slide>
+		<ion-slide>
+			<h3>Report</h3>
+			<div id="logo">
+              <img src="img/report.png">
+            </div>
+			<p>Get report</p>
+		</ion-slide>
+		<ion-slide>
+			<h3>Chart</h3>
+			<div id="logo">
+              <img src="img/chart.png">
+            </div>
+			<p>See expense chart</p>
+		</ion-slide>
+	</ion-slide-box>
+</ion-view>
