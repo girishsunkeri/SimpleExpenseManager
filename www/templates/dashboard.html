@@ -23,24 +23,24 @@
 			<ion-item class="category-buttons-container">
 			    
 				<button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[0], $index)" 
-				ng-class="activeCategory === firstFourcategories[0] ? 'button-positive' :  'button-calm'">
+				ng-class="activeCategory === firstFourcategories[0] ? 'button-balanced' :  'button-dark'">
 		         	{{firstFourcategories[0].title}}
 		        </button><!--
 		        --><button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[1], $index)" 
-				ng-class="activeCategory === firstFourcategories[1] ? 'button-positive' :  'button-calm'">
+				ng-class="activeCategory === firstFourcategories[1] ? 'button-balanced' :  'button-dark'">
 		         	{{firstFourcategories[1].title}}
 		        </button><!--
 		        --><button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[2], $index)" 
-				ng-class="activeCategory === firstFourcategories[2] ? 'button-positive' :  'button-calm'">
+				ng-class="activeCategory === firstFourcategories[2] ? 'button-balanced' :  'button-dark'">
 		         	{{firstFourcategories[2].title}}
 		        </button><!--
 		        --><button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[3], $index)" 
-				ng-class="activeCategory === firstFourcategories[3] ? 'button-positive' :  'button-calm'">
+				ng-class="activeCategory === firstFourcategories[3] ? 'button-balanced' :  'button-dark'">
 		         	{{firstFourcategories[3].title}}
 		        </button>
 		    </ion-item>
 			<ion-item class="no-padding-top">
-				<button class="button button-calm button-block more-categories" ng-click="showCategoriesModal()" ng-if="categories.length != 0">
+				<button class="button button-dark button-block more-categories" ng-click="showCategoriesModal()" ng-if="categories.length != 0">
 		         	{{additionalCategoryTitle}}
 		        </button>
 		     </ion-item>

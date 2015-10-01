@@ -16,6 +16,22 @@
 	text-align: center;
 }
 
+/*---If custom colors are required uncomment below section---*/
+
+/*
+
+.button-category-select, .button-category-select:hover {
+	color: #fff;
+	background-color: #33CD5F;
+}
+
+.button-category-unselect {
+	color: #fff;
+	background-color: #387EF5;
+}
+
+*/
+
 .category-select {
 	background-color: #000;
 }
