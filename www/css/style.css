@@ -56,6 +56,23 @@
 	display: inline-block;
 }
 
+.my-expense-item {
+	padding-left: 16px;
+}
+
+.my-expense-cost {
+	float: right;
+}
+
+.my-expense-cost h2 {
+	font-size: 20px;
+	font-weight: 500;
+}
+
+.my-expense-text h2 {
+	padding-bottom: 1px;
+}
+
 .inline-block {
 	display: inline-block;
 }
@@ -206,5 +223,17 @@
 
 .intro div img {
 	width: 55%;
+}
+
+.edit-button-div {
+	margin: 0 4px 0 4px;
+}
+
+.expense-field {
+	width: 15%;
+}
+
+.expense-field-button {
+	width: 85%;
 }
 

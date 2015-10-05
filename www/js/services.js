@@ -165,7 +165,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 	var self = this;
 
 	self.all = function(){
-		return DB.query("SELECT categoryId, cost, date, details, title FROM Expense INNER JOIN Category ON Expense.categoryId = Category.id")
+		return DB.query("SELECT Expense.id as id, categoryId, cost, date, details, title FROM Expense INNER JOIN Category ON Expense.categoryId = Category.id")
 			.then(function(result){
 				return DB.getAll(result);
 			});
@@ -184,7 +184,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 	self.get = function(expenseId){
 		var parameters = [expenseId];
 
-		return DB.query("SELECT id, categoryId, cost, date, details FROM Expense WHERE id = (?)", parameters)
+		return DB.query("SELECT Expense.id as id, title, categoryId, cost, date, details FROM Expense INNER JOIN Category ON Expense.categoryId = Category.id WHERE Expense.id = (?)", parameters)
 			.then(function(result){
 				return DB.getById(result);
 			});
@@ -245,9 +245,9 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 		return DB.query("DELETE FROM Expense WHERE id = (?)", parameters);
 	};
 
-	self.update = function(oldExpense, newExpense){
-		var parameters = [newExpense.title, oldExpense.id];
-		return DB.query("UPDATE Expense SET title = (?) where id = (?)", parameters);
+	self.update = function(expenseObj){
+		var parameters = [expenseObj.categoryId, expenseObj.date, expenseObj.details, expenseObj.cost, expenseObj.id];
+		return DB.query("UPDATE Expense SET categoryId = (?), date = (?), details = (?), cost = (?) where id = (?)", parameters);
 	};
 
 	return self;

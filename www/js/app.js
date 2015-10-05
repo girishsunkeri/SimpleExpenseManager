@@ -77,6 +77,16 @@ angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services','
     }
   })
 
+  .state('app.expenseDetails', {
+    url: '/expense/:expenseId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/expenseDetails.html',
+        controller: 'ExpenseDetailsCtrl'
+      }
+    }
+  })
+
   .state('app.report', {
     url: '/report',
     views: {

@@ -1,0 +1,58 @@
+<ion-view view-title="Details">
+  <ion-content>
+  	<ion-list>
+  		<ion-item class="item item-input-inset">
+  			<label class="expense-field"><span class="input-label">Details: </span></label>
+  			<span class="input-label" ng-show="!editMode">{{ expense.details }}</span>
+  			<label class="item item-input-wrapper dashboard-input" ng-show="editMode">
+				<input type="text" ng-model="expense.details" placeholder="Details">
+			</label>
+  		</ion-item>
+  		<ion-item class="item item-input-inset">
+  			<label class="expense-field"><span class="input-label">Cost: </span></label>
+  			<span class="input-label" ng-show="!editMode">{{ expense.cost }}</span>
+  			<label class="item item-input-wrapper dashboard-input" ng-show="editMode">
+				<input type="text" ng-model="expense.cost" placeholder="Cost">
+			</label>
+  		</ion-item>
+  		<ion-item class="item item-input-inset">
+  			<label class="expense-field"><span class="input-label">Title: </span></label>
+  			<span class="input-label" ng-show="!editMode">{{ expense.title }}</span>
+  			<div class="expense-field-button" ng-show="editMode">
+	  			<button class="button button-block more-categories" ng-click="showCategoriesModal()">
+		         	{{expense.title}}
+		        </button>
+		    </div>
+  		</ion-item>
+  		<ion-item class="item item-input-inset"> 
+  			<label class="expense-field"><span class="input-label">Date: </span></label>
+  			<span class="input-label" ng-show="!editMode">{{ expense.date | date:'dd MMM yyyy'}}</span>
+			<div class="expense-field-button" ng-show="editMode">
+				<button class="button button-block" ng-click="showDatePicker()">{{expense.date | date:'dd MMM yyyy'}}</button>
+			</div>
+  		</ion-item>
+  		<ion-item>
+  			<div class="col-1-2 inline-block text-align-center" ng-show="!editMode">
+  				<div class="edit-button-div">
+					<button class="button icon-left ion-edit button-block button-dark" ng-click="editExpense()">Edit</button>
+				</div>
+			</div><!--
+			--><div class="col-1-2 inline-block text-align-center" ng-show="!editMode">
+				<div class="edit-button-div">
+					<button class="button icon-left ion-trash-b button-block button-assertive" ng-click="deleteExpense()">Delete</button>
+				</div>
+			</div>
+			<div class="col-1-2 inline-block text-align-center" ng-show="editMode">
+				<div class="edit-button-div">
+					<button class="button icon-left ion-checkmark button-block button-dark" ng-click="saveExpense()">Save</button>
+				</div>
+			</div><!--
+			--><div class="col-1-2 inline-block text-align-center" ng-show="editMode">
+				<div class="edit-button-div">
+					<button class="button icon-left ion-ios-close-empty button-block" ng-click="cancelEdit()">Cancel</button>
+				</div>
+			</div>
+		</ion-item>
+  	</ion-list>
+  </ion-content>
+</ion-view>
