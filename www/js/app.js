@@ -1,7 +1,7 @@
 var db = null;
-angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services','chart.js'])
+var appModule = angular.module('sem', ['ionic', 'ngCordova', 'sem.services','chart.js', 'ngMessages']);
 
-.run(function($ionicPlatform, DB) {
+appModule.run(function($ionicPlatform, DB) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -39,7 +39,7 @@ angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services','
     }
   })
 
-  .state('app.search', {
+.state('app.search', {
     url: '/search',
     views: {
       'menuContent': {
@@ -149,4 +149,35 @@ angular.module('sem', ['ionic', 'sem.controllers', 'ngCordova', 'sem.services','
   });
 
   $urlRouterProvider.otherwise('/app/dashboard');
-});
+})
+
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, UI, $state) {
+
+  $scope.loginData = {};
+
+  $ionicModal.fromTemplateUrl('templates/login.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.closeLogin = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.login = function() {
+    $scope.modal.show();
+  };
+
+  $scope.doLogin = function() {
+    $timeout(function() {
+      $scope.closeLogin();
+    }, 1000);
+  };
+
+  $scope.showBackButton = UI.backButtonStatus;
+
+  $scope.navigateToPreviousScreen = function(){
+    $state.go('app.dashboard');
+  };
+})

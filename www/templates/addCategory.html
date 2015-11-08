@@ -6,14 +6,23 @@
 		</div>
 	</ion-header-bar>
 	<ion-content>
-		<form ng-submit="addNewCategory()">
+		<form>
 			<div class="list">
 				<label class="item item-input">
 					<span class="input-label">Title</span>
 					<input type="text" ng-model="category.title" autofocus>
 				</label>
 				<label class="item">
-					<button class="button button-block button-positive" type="submit">{{addAction ? 'Add' : 'Save'}}</button>
+					<div ng-class="addAction === true ? 'width-full' : 'width-half'" class="inline-block">
+						<div class="edit-button-div">
+							<button class="action-button button icon-left ion-checkmark button-block button-positive" ng-click="addNewCategory()">{{addAction ? 'Add' : 'Save'}}</button>
+						</div>
+					</div><!--
+					--><div class="width-half inline-block" ng-show="!addAction">
+						<div class="edit-button-div">
+							<button class="action-button button icon-left ion-trash-b button-block button-assertive" ng-click="deleteCategory()">Delete</button>
+						</div>
+					</div>
 				</label>
 			</div>
 		</form>

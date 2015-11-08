@@ -39,7 +39,7 @@
 	                    ng-repeat="expense in category.expenses"
 	                    ng-show="isCategoryShown(category)">
 	            	<div class="expense-content col-1-3 text-align-left">{{expense.details}}</div>
-					<div class="expense-content col-1-3 text-align-center">{{expense.date}}</div>
+					<div class="expense-content col-1-3 text-align-center">{{ expense.date | cmdate:'dd MMM yyyy'}}</div>
 					<div class="expense-content col-1-3 text-align-right">{{expense.cost | currency:"&#8377;"}}</div>
 	          </ion-item>
 			</div>

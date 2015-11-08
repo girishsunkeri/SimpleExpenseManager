@@ -1,22 +1,30 @@
 <ion-view hide-back-button="true" view-title="Dashboard">
 	<ion-content>
 		<ion-list class="dashboard">
-			<ion-item>
-				<div class="inline-block col-1-2 text-align-left text-bold">Total</div>
-				<div class="inline-block col-1-2 text-align-right text-bold">{{totalCost | currency:"&#8377;"}}<span ng-if="budget > 0">/{{budget | currency:"&#8377;"}}</span></div>
-			</ion-item>
-			<hr>
-			<ion-item class="item item-input-inset">
-				<label class="item item-input-wrapper dashboard-input">
-					<input type="number" ng-model="expense.cost" placeholder="Cost" autofocus>
-				</label>
-				<button class="button button-positive ion-checkmark" ng-click="addExpense()">Add</button>
-			</ion-item>
-			<ion-item class="item item-input-inset">
-				<label class="item item-input-wrapper dashboard-input">
-					<input type="text" ng-model="expense.details" placeholder="Details">
-				</label>
-			</ion-item>
+			<form name="addExpenseForm" novalidate="" ng-submit="addExpenseForm.$valid && addExpense(this)">
+				<ion-item>
+					<div class="inline-block col-1-2 text-align-left text-bold">Total</div>
+					<div class="inline-block col-1-2 text-align-right text-bold">{{totalCost | currency:"&#8377;"}}<span ng-if="budget > 0">/{{budget | currency:"&#8377;"}}</span></div>
+				</ion-item>
+				<hr>
+				<ion-item class="item item-input-inset">
+					<label class="item item-input-wrapper dashboard-input"
+						ng-class="{ 'has-error' : addExpenseForm.cost.$invalid && addExpenseForm.$submitted, 'valid-cost' : addExpenseForm.cost.$valid  && addExpenseForm.$submitted}">
+						<input type="number" name="cost" min="1" ng-model="expense.cost" placeholder="Cost" autofocus required>
+					</label>
+					<button class="button button-positive ion-checkmark" type="submit">Add</button>
+				</ion-item>
+				<div class="form-errors"
+						ng-show="addExpenseForm.cost.$error && addExpenseForm.$submitted"
+						ng-messages="addExpenseForm.cost.$error"
+						ng-messages-include="templates/form-errors.html">
+					</div>
+				<ion-item class="item item-input-inset">
+					<label class="item item-input-wrapper dashboard-input">
+						<input type="text" name="description" ng-model="expense.details" placeholder="Details">
+					</label>
+				</ion-item>
+			</form>
 			<div class="item  item-stable text-align-center category-label">
 				<span>Select Category</span>
 			</div>
@@ -34,7 +42,7 @@
 				ng-class="activeCategory === firstFourcategories[2] ? 'button-balanced' :  'button-dark'">
 		         	{{firstFourcategories[2].title}}
 		        </button><!--
-		        --><button class="dashboard-category button"  ng-click="addCategoryToExpense(firstFourcategories[3], $index)" 
+		        --><button class="dashboard-category-last button"  ng-click="addCategoryToExpense(firstFourcategories[3], $index)" 
 				ng-class="activeCategory === firstFourcategories[3] ? 'button-balanced' :  'button-dark'">
 		         	{{firstFourcategories[3].title}}
 		        </button>
@@ -50,4 +58,8 @@
 			</ion-item>
 		</ion-list>
 	</ion-content>
+	<script type="text/ng-template" id="templates/form-errors.html">
+		<div class="form-error" ng-message="required"> This field is required. </div>
+		<div class="form-error" ng-message="min"> Value must be greater than 0. </div>
+	</script>
 </ion-view>

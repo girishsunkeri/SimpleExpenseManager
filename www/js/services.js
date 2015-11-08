@@ -140,6 +140,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 
 	self.remove = function(categoryId){
 		var parameters = [categoryId];
+		DB.query("DELETE FROM Expense WHERE categoryId = (?)", parameters);
 		return DB.query("DELETE FROM Category WHERE id = (?)", parameters);
 	};
 
@@ -175,7 +176,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 		startDate = $filter('date')(startDate, 'yyyyMMdd');
 		endDate = $filter('date')(endDate, 'yyyyMMdd');
 		var parameters = [categoryId, startDate, endDate];
-		return DB.query("SELECT id, categoryId, cost, date, substr(date,7)||substr(date,4,2)||substr(date,1,2) as newDate, details FROM Expense WHERE categoryId = (?) and newDate between (?) and (?)", parameters)
+		return DB.query("SELECT id, categoryId, cost, date, substr(date,7)||substr(date,1,2)||substr(date,4,2) as newDate, details FROM Expense WHERE categoryId = (?) and newDate between (?) and (?)", parameters)
 			.then(function(result){
 				return DB.getAll(result);
 			});
@@ -199,7 +200,7 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 		console.log("Dates");
 		console.log(offsetDate);
 		console.log(endDate);
-		return DB.query("SELECT SUM(cost) as totalCost, substr(date,7)||substr(date,4,2)||substr(date,1,2) as newDate FROM Expense WHERE newDate between (?) and (?)", parameters)
+		return DB.query("SELECT SUM(cost) as totalCost, substr(date,7)||substr(date,1,2)||substr(date,4,2) as newDate FROM Expense WHERE newDate between (?) and (?)", parameters)
 			.then(function(result){
 				return DB.getById(result);
 			});
@@ -268,8 +269,9 @@ angular.module('sem.services', ['sem.utils', 'sem.config', 'ngCordova'])
 		endDate = $filter('date')(endDate, 'yyyyMMdd');
 		var parameters = [startDate, endDate];
 		console.log("startDate: "+startDate+" endDate: "+ endDate);
-		return DB.query("SELECT categoryId, SUM(cost) as totalCost, title, substr(date,7)||substr(date,4,2)||substr(date,1,2) as newDate FROM Expense INNER JOIN Category ON Expense.categoryId = Category.id WHERE newDate between (?) and (?) Group By categoryId", parameters)
+		return DB.query("SELECT categoryId, SUM(cost) as totalCost, title, substr(date,7)||substr(date,1,2)||substr(date,4,2) as newDate FROM Expense INNER JOIN Category ON Expense.categoryId = Category.id WHERE newDate between (?) and (?) Group By categoryId", parameters)
 			.then(function(result){
+				console.log(result);
 				return DB.getAll(result);
 			});
 	};

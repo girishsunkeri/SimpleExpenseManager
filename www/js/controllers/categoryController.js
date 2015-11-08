@@ -1,0 +1,3 @@
+appModule.controller('CategoryCtrl', function() {
+
+});

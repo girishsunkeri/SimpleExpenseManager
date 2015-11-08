@@ -3,10 +3,17 @@
 .dashboard-category-wrapper {
 }
 
+.dashboard-category, .dashboard-category-last {
+	width: 24%;
+	padding: 0 5px;
+  	overflow: hidden;
+  	text-overflow: ellipsis;
+  	white-space: nowrap;
+}
+
 .dashboard-category {
-	margin-right: 5px;
-	width: 23%;
-	text-align: center;
+	
+	margin-right: 1.33%;
 }
 
 .dashboard-category1 {
@@ -56,8 +63,8 @@
 	display: inline-block;
 }
 
-.my-expense-item {
-	padding-left: 16px;
+.my-expense-item .item-content {
+	padding: 16px 16px 16px 16px;
 }
 
 .my-expense-cost {
@@ -230,10 +237,37 @@
 }
 
 .expense-field {
-	width: 15%;
+	width: 20%;
 }
 
 .expense-field-button {
-	width: 85%;
+	width: 80%;
 }
 
+.width-full{
+	width: 100%;
+}
+
+.width-half{
+	width: 50%;
+}
+
+
+
+.has-error {  
+  border-bottom: 1px solid red !important;
+}
+
+.valid-cost {  
+  border: px solid green;
+}
+
+
+/** Styling for the error text and container **/
+.form-errors {
+  margin: 5px 0
+}
+.form-error {
+  padding: 2px 0 2px 16px;
+  color: red;
+}

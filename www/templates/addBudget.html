@@ -1,0 +1,25 @@
+<ion-modal-view>
+	<ion-header-bar>
+		<h1 class="title">Budget</h1>
+		<div class="buttons">
+			<button class="button button-clear" ng-click="closeBudgetPopup()">Close</button>
+		</div>
+	</ion-header-bar>
+	<ion-content>
+		<form>
+			<div class="list">
+				<label class="item item-input">
+					<span class="input-label">Title</span>
+					<input type="number" ng-model="totalBudget" autofocus>
+				</label>
+				<label class="item">
+					<div class="inline-block width-full">
+						<div class="edit-button-div">
+							<button class="action-button button icon-left ion-checkmark button-block button-positive" ng-click="setBudget(totalBudget)">Save</button>
+						</div>
+					</div>
+				</label>
+			</div>
+		</form>
+	</ion-content>
+</ion-modal-view>
