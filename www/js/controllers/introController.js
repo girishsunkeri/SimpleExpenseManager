@@ -9,13 +9,14 @@ appModule.controller('IntroCtrl', function($scope, $state, $ionicSlideBoxDelegat
   $scope.next = function(){
     $ionicSlideBoxDelegate.next();
   };
+  
+  $scope.slideChanged = function(index){
+    console.log("slideChanged");
+    $scope.slideIndex = index;
+  }
 
   $scope.previous = function(){
     $ionicSlideBoxDelegate.previous();
   };
 
-  $scope.slideChanged = function(index){
-    console.log("slideChanged");
-    $scope.slideIndex = index;
-  }
 });
