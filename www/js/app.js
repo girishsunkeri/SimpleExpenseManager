@@ -27,9 +27,9 @@ appModule.run(function($ionicPlatform, DB) {
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl',
     onEnter: function($state, Settings){
-      Settings.get('noIntro').then(function(result){
-        if(result){
-          if(result.SettingValue != 'true'){
+      Settings.get('noIntro').then(function(data){
+        if(data){
+          if(data.SettingValue != 'true'){
             $state.go('app.intro');
           }
         }else{
